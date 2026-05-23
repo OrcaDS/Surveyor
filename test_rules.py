@@ -9,7 +9,7 @@ Run from project root: python test_rules.py
 from app.parser.txt_loader import TxtLoader
 from app.parser.text_cleaner import TextCleaner
 from app.parser.survey_parser import SurveyParser
-from app.principles.p009 import P009
+from app.principles.p010 import P010
 
 
 
@@ -20,7 +20,7 @@ cleaned = TextCleaner(raw).clean()
 survey = SurveyParser(cleaned).parse()
 items = survey.items
 
-rules = [P009()]
+rules = [P010()]
 
 for rule in rules:
     print(f"{'='*60}")
