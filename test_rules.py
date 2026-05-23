@@ -13,13 +13,14 @@ from app.principles.p005 import P005
 from app.principles.p006 import P006
 from app.principles.p007 import P007
 from app.principles.p008 import P008
+from app.principles.p015 import P015
 
 raw = TxtLoader('data/raw_surveys/survey_001.txt').load()
 cleaned = TextCleaner(raw).clean()
 survey = SurveyParser(cleaned).parse()
 items = survey.items
 
-rules = [P005(), P006(), P007(), P008()]
+rules = [P005(), P006(), P007(), P008(), P015()]
 
 for rule in rules:
     print(f"{'='*60}")
