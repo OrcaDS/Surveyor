@@ -1,0 +1,60 @@
+"""
+test_diagnostics.py
+
+End-to-end test of the full pipeline through the diagnostic aggregator.
+Run from project root: python test_diagnostics.py
+"""
+
+from app.parser.txt_loader import TxtLoader
+from app.parser.text_cleaner import TextCleaner
+from app.parser.survey_parser import SurveyParser
+from app.principles.registry import build_default_registry
+from app.diagnostics.diagnostic_aggregator import DiagnosticAggregator
+
+# --- Parse ---
+raw = TxtLoader('data/raw_surveys/survey_001.txt').load()
+cleaned = TextCleaner(raw).clean()
+survey = SurveyParser(cleaned).parse()
+
+# --- Evaluate ---
+registry = build_default_registry()
+results = registry.evaluate(survey.items)
+
+# --- Aggregate ---
+aggregator = DiagnosticAggregator(survey, results)
+diagnostic = aggregator.aggregate()
+
+# --- Print ---
+print(diagnostic)
+print()
+
+inst = diagnostic.instrument
+print("INSTRUMENT SUMMARY")
+print(f"  Total items           : {inst.total_items}")
+print(f"  Items with violations : {inst.items_with_violations}")
+print(f"  Clean items           : {inst.clean_items}")
+print(f"  Total violations      : {inst.total_item_violations}")
+print(f"  Instrument findings   : {inst.instrument_finding_count}")
+print(f"  HIGH priority items   : {inst.high_priority_count}")
+print(f"  MEDIUM priority items : {inst.medium_priority_count}")
+print(f"  LOW priority items    : {inst.low_priority_count}")
+print(f"  Validity risk         : {inst.instrument_validity_risk}")
+print()
+
+print("HIGH PRIORITY ITEMS:")
+for d in diagnostic.high_priority_items:
+    print(f"  Item {d.item_id:>2}: composite={d.composite_severity:.2f} "
+          f"| max={d.max_severity:.2f} "
+          f"| rules={d.rules_fired}")
+print()
+
+print("SAMPLE — Item 17 full diagnostic:")
+item_17 = next(d for d in diagnostic.items if d.item_id == 17)
+print(f"  Text      : {item_17.text[:80]}...")
+print(f"  Priority  : {item_17.priority}")
+print(f"  Composite : {item_17.composite_severity}")
+print(f"  Max sev   : {item_17.max_severity}")
+print(f"  Rules     : {item_17.rules_fired}")
+print(f"  Violations:")
+for v in item_17.violations:
+    print(f"    [{v.principle}] sev={v.severity} | {v.evidence[:70]}...")
