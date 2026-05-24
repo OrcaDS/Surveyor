@@ -164,7 +164,27 @@ class PrincipleRegistry:
             else:
                 self._run_item_rule(rule, items, results)
 
+        # Inject violation data for P023 (meta-rule)
+        # Enrich each item dict with _rules_fired before P023 runs
+
+        enriched_items = []
+        for item in items:
+            item_id = item.get("item_id")
+            rules_fired = [
+                v.principle
+                for v in results.item_violations.get(item_id, [])
+            ]
+            enriched = {**item, "_rules_fired": rules_fired}
+            enriched_items.append(enriched)
+
+        # Run P023 separately with enriched items
+        from app.principles.p023 import P023
+        p023 = P023()
+        self._run_instrument_rule(p023, enriched_items, results)
+
         return results
+
+       
 
     def registered_rules(self) -> list:
         """Return list of registered rule IDs in order."""
