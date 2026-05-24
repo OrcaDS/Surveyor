@@ -9,11 +9,13 @@ RESPONSIBILITIES:
     3. Save reports to data/outputs/
 
 REPORT STRUCTURE (plain text):
-    Section 1 — Instrument Overview
-    Section 2 — Instrument-Level Findings
-    Section 3 — High Priority Items
-    Section 4 — Full Item Diagnostics
-    Section 5 — Recommendations
+    Header     — Verdict and score upfront
+    Section 1  — Instrument Overview
+    Section 2  — Validity Score Breakdown (P025)
+    Section 3  — Instrument-Level Findings
+    Section 4  — High Priority Items
+    Section 5  — Full Item Diagnostics
+    Section 6  — Recommendations
 
 USAGE:
     from app.reporting.report_builder import ReportBuilder
@@ -32,21 +34,15 @@ from app.diagnostics.diagnostic_aggregator import SurveyDiagnostic
 class ReportBuilder:
     """
     Builds audit reports from a SurveyDiagnostic object.
-
-    Usage:
-        builder = ReportBuilder(diagnostic)
-        builder.save_text_report("data/outputs/report.txt")
-        builder.save_json_report("data/outputs/report.json")
     """
 
-    # Principle descriptions for human-readable evidence headers
     PRINCIPLE_LABELS = {
         "P001": "CASM Response Process Failure",
         "P002": "Double-Barreled Question",
         "P003": "Undefined/Ambiguous Terms",
         "P004": "Recall Period Calibration",
-        "P005": "Social Desirability Bias",
-        "P006": "Acquiescence Bias",
+        "P005": "Social Desirability Bias Risk",
+        "P006": "Acquiescence Bias Risk",
         "P007": "Satisficing Risk",
         "P008": "Scale Anchor Calibration",
         "P009": "Response Option Order Effects",
@@ -56,7 +52,7 @@ class ReportBuilder:
         "P013": "Scale Direction Consistency",
         "P014": "Open vs. Closed Question Trade-offs",
         "P015": "Negative/Double-Negative Wording",
-        "P016": "Leading and Loaded Wording",
+        "P016": "Leading and Loaded Wording Risk",
         "P017": "Recall-Enabling Strategies",
         "P018": "Construct Validity",
         "P019": "Response Task Specification",
@@ -65,48 +61,77 @@ class ReportBuilder:
         "P022": "Visual Layout Effects",
         "P023": "Behavior Coding Signal",
         "P024": "Funnel Principle",
-        "P025": "Composite Quality Score",
+        "P025": "Composite Validity Score",
+    }
+
+    # Classification labels and descriptions
+    CLASSIFICATION_DESCRIPTIONS = {
+        "INVALID": (
+            "The instrument has significant methodological problems that "
+            "are likely to produce unreliable or invalid data. "
+            "Major revision is required before deployment."
+        ),
+        "NEEDS REVISION": (
+            "The instrument has moderate methodological problems that "
+            "may affect data quality. Revision of flagged items and "
+            "instrument-level issues is recommended before deployment."
+        ),
+        "VALID": (
+            "The instrument has few detected methodological problems. "
+            "Minor revisions may still be warranted. Cognitive interviewing "
+            "is recommended before full deployment."
+        ),
     }
 
     def __init__(self, diagnostic: SurveyDiagnostic):
-        """
-        Args:
-            diagnostic (SurveyDiagnostic): Output from DiagnosticAggregator.
-        """
         self.diagnostic = diagnostic
         self.generated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self._p025_finding = self._extract_p025()
+
+    def _extract_p025(self):
+        """Extract P025 finding from instrument violations if present."""
+        for finding in self.diagnostic.instrument.instrument_findings:
+            if finding.principle == "P025":
+                return finding
+        return None
+
+    def _get_classification(self) -> tuple:
+        """Return (score, classification) from P025 or fallback."""
+        if self._p025_finding:
+            score = self._p025_finding.severity
+            # Re-derive classification from score
+            if score >= 0.70:
+                classification = "INVALID"
+            elif score >= 0.40:
+                classification = "NEEDS REVISION"
+            else:
+                classification = "VALID"
+            return score, classification
+        return None, "UNKNOWN"
 
     # ------------------------------------------------------------------
     # PUBLIC METHODS
     # ------------------------------------------------------------------
 
     def build_text_report(self) -> str:
-        """
-        Build the full plain text audit report as a string.
-
-        Returns:
-            str: Complete formatted report.
-        """
         sections = [
             self._header(),
             self._section_1_overview(),
-            self._section_2_instrument_findings(),
-            self._section_3_high_priority_items(),
-            self._section_4_full_item_diagnostics(),
-            self._section_5_recommendations(),
+            self._section_2_validity_score(),
+            self._section_3_instrument_findings(),
+            self._section_4_high_priority_items(),
+            self._section_5_full_item_diagnostics(),
+            self._section_6_recommendations(),
             self._footer(),
         ]
         return "\n\n".join(sections)
 
     def build_json_report(self) -> dict:
-        """
-        Build the machine-readable JSON report as a dict.
-
-        Returns:
-            dict: Complete structured report.
-        """
+        score, classification = self._get_classification()
         return {
             "generated_at": self.generated_at,
+            "validity_score": score,
+            "classification": classification,
             "survey_metadata": self.diagnostic.survey_metadata,
             "instrument_summary": self.diagnostic.instrument.to_dict(),
             "high_priority_items": [
@@ -118,12 +143,6 @@ class ReportBuilder:
         }
 
     def save_text_report(self, path: str) -> None:
-        """
-        Build and save the plain text report to disk.
-
-        Args:
-            path (str): Output file path. e.g. "data/outputs/report.txt"
-        """
         os.makedirs(os.path.dirname(path), exist_ok=True)
         report = self.build_text_report()
         with open(path, "w", encoding="utf-8") as f:
@@ -131,12 +150,6 @@ class ReportBuilder:
         print(f"Text report saved: {path}")
 
     def save_json_report(self, path: str) -> None:
-        """
-        Build and save the JSON report to disk.
-
-        Args:
-            path (str): Output file path. e.g. "data/outputs/report.json"
-        """
         os.makedirs(os.path.dirname(path), exist_ok=True)
         report = self.build_json_report()
         with open(path, "w", encoding="utf-8") as f:
@@ -149,16 +162,37 @@ class ReportBuilder:
 
     def _header(self) -> str:
         inst = self.diagnostic.instrument
+        score, classification = self._get_classification()
+
+        score_display = f"{score:.3f}" if score is not None else "N/A"
+        score_bar = self._score_bar(score) if score is not None else ""
+
         return (
             f"{'='*70}\n"
             f"  SURVEYOR AI — SURVEY VALIDITY AUDIT REPORT\n"
             f"{'='*70}\n"
-            f"  Generated : {self.generated_at}\n"
-            f"  Items     : {inst.total_items}\n"
-            f"  Rules     : {len(inst.rule_summary)}\n"
-            f"  Risk Level: {inst.instrument_validity_risk}\n"
+            f"  Generated      : {self.generated_at}\n"
+            f"  Items evaluated: {inst.total_items}\n"
+            f"  Rules applied  : {len(inst.rule_summary)}\n"
+            f"\n"
+            f"  ┌─────────────────────────────────────────────────┐\n"
+            f"  │  VALIDITY SCORE  : {score_display:<10}                  │\n"
+            f"  │  CLASSIFICATION  : {classification:<28}  │\n"
+            f"  │  RISK LEVEL      : {inst.instrument_validity_risk:<28}  │\n"
+            f"  │  {score_bar:<47}  │\n"
+            f"  └─────────────────────────────────────────────────┘\n"
+            f"\n"
+            f"  DISCLAIMER: This report is a theory-inspired heuristic\n"
+            f"  diagnostic. Findings indicate RISK, not confirmed bias.\n"
+            f"  All outputs should be reviewed by a qualified expert.\n"
             f"{'='*70}"
         )
+
+    def _score_bar(self, score: float) -> str:
+        """Visual score bar. Higher score = more problems."""
+        filled = int(score * 20)
+        empty = 20 - filled
+        return f"Risk: [{'█' * filled}{'░' * empty}] {score:.0%}"
 
     def _section_1_overview(self) -> str:
         inst = self.diagnostic.instrument
@@ -187,7 +221,8 @@ class ReportBuilder:
             f"Items with violations: {inst.items_with_violations} "
             f"({violation_pct:.1f}%)",
             f"Clean items          : {inst.clean_items}",
-            f"Total violations     : {inst.total_item_violations}",
+            f"Total item violations: {inst.total_item_violations}",
+            f"Instrument findings  : {inst.instrument_finding_count}",
             "",
             f"Priority breakdown:",
             f"  HIGH   : {inst.high_priority_count} items",
@@ -195,29 +230,87 @@ class ReportBuilder:
             f"  LOW    : {inst.low_priority_count} items",
             f"  CLEAN  : {inst.clean_items} items",
             "",
-            f"INSTRUMENT VALIDITY RISK: {inst.instrument_validity_risk}",
-            "",
-            "Rule violation summary:",
+            "Rule violation counts:",
         ]
 
         for rule_id, count in sorted(inst.rule_summary.items()):
+            if rule_id in ("P023", "P025"):
+                continue  # these are meta-rules, shown separately
             label = self.PRINCIPLE_LABELS.get(rule_id, rule_id)
-            lines.append(f"  {rule_id} ({label}): {count}")
+            bar = "█" * min(count, 30)
+            lines.append(f"  {rule_id} ({label}): {count} {bar}")
 
         return "\n".join(lines)
 
-    def _section_2_instrument_findings(self) -> str:
-        inst = self.diagnostic.instrument
+    def _section_2_validity_score(self) -> str:
+        score, classification = self._get_classification()
+        description = self.CLASSIFICATION_DESCRIPTIONS.get(
+            classification, ""
+        )
+
         lines = [
-            "SECTION 2 — INSTRUMENT-LEVEL FINDINGS",
+            "SECTION 2 — VALIDITY SCORE BREAKDOWN (P025)",
             "-" * 40,
         ]
 
-        if not inst.instrument_findings:
+        if not self._p025_finding:
+            lines.append("P025 composite score not available.")
+            return "\n".join(lines)
+
+        lines += [
+            f"Composite Validity Score : {score:.3f} / 1.000",
+            f"Classification           : {classification}",
+            f"",
+            f"Interpretation:",
+            f"  {description}",
+            f"",
+            f"Score components (higher = more problems detected):",
+            f"  Component 1 (40% weight) — High-severity item ratio",
+            f"    Items with any violation above severity 0.50.",
+            f"    Ensures minor flags don't inflate the score.",
+            f"",
+            f"  Component 2 (35% weight) — Mean composite severity",
+            f"    Average severity across all items (clean items = 0.0).",
+            f"    Reflects overall burden of problems per item.",
+            f"",
+            f"  Component 3 (25% weight) — Instrument finding severity",
+            f"    Weighted mean of instrument-level finding severities.",
+            f"    Weighted by finding count — more findings compound.",
+            f"",
+            f"Classification thresholds:",
+            f"  VALID          : score < 0.40",
+            f"  NEEDS REVISION : 0.40 <= score < 0.70",
+            f"  INVALID        : score >= 0.70",
+            f"",
+            f"IMPORTANT: This score is a heuristic risk index, not a",
+            f"validated psychometric measure. Severity weights are",
+            f"principled but not empirically calibrated. Interpret",
+            f"alongside the full diagnostic report.",
+        ]
+
+        return "\n".join(lines)
+
+    def _section_3_instrument_findings(self) -> str:
+        inst = self.diagnostic.instrument
+        lines = [
+            "SECTION 3 — INSTRUMENT-LEVEL FINDINGS",
+            "-" * 40,
+        ]
+
+        # Exclude P025 — it has its own section
+        findings = [
+            f for f in inst.instrument_findings
+            if f.principle != "P025"
+        ]
+
+        if not findings:
             lines.append("No instrument-level findings.")
             return "\n".join(lines)
 
-        for i, finding in enumerate(inst.instrument_findings, 1):
+        # Sort by severity descending
+        findings = sorted(findings, key=lambda f: f.severity, reverse=True)
+
+        for i, finding in enumerate(findings, 1):
             label = self.PRINCIPLE_LABELS.get(
                 finding.principle, finding.principle
             )
@@ -230,16 +323,20 @@ class ReportBuilder:
                 f"Finding {i}: {finding.principle} — {label}",
                 f"  Severity : {finding.severity}",
                 f"  Affected : {affected_desc}",
-                f"  Evidence : {finding.evidence}",
+                f"  Evidence : {finding.evidence[:200]}"
+                f"{'...' if len(finding.evidence) > 200 else ''}",
                 "",
             ]
 
         return "\n".join(lines)
 
-    def _section_3_high_priority_items(self) -> str:
+    def _section_4_high_priority_items(self) -> str:
         lines = [
-            "SECTION 3 — HIGH PRIORITY ITEMS (require immediate attention)",
+            "SECTION 4 — HIGH PRIORITY ITEMS (require immediate attention)",
             "-" * 40,
+            "NOTE: Findings indicate RISK signals, not confirmed bias.",
+            "      Verify all flagged items through expert review.",
+            "",
         ]
 
         if not self.diagnostic.high_priority_items:
@@ -251,7 +348,8 @@ class ReportBuilder:
                 f"Item {d.item_id:>2} | composite={d.composite_severity:.2f} "
                 f"| max={d.max_severity:.2f} "
                 f"| rules fired: {', '.join(d.rules_fired)}",
-                f"  Text: {d.text[:90]}{'...' if len(d.text) > 90 else ''}",
+                f"  Text: {d.text[:90]}"
+                f"{'...' if len(d.text) > 90 else ''}",
             ]
             for v in d.violations:
                 label = self.PRINCIPLE_LABELS.get(v.principle, v.principle)
@@ -263,9 +361,9 @@ class ReportBuilder:
 
         return "\n".join(lines)
 
-    def _section_4_full_item_diagnostics(self) -> str:
+    def _section_5_full_item_diagnostics(self) -> str:
         lines = [
-            "SECTION 4 — FULL ITEM DIAGNOSTICS",
+            "SECTION 5 — FULL ITEM DIAGNOSTICS",
             "-" * 40,
         ]
 
@@ -280,7 +378,8 @@ class ReportBuilder:
                     f"Item {d.item_id:>2} | {d.priority:<6} | "
                     f"composite={d.composite_severity:.2f} | "
                     f"violations={d.violation_count}",
-                    f"  Text: {d.text[:80]}{'...' if len(d.text) > 80 else ''}",
+                    f"  Text: {d.text[:80]}"
+                    f"{'...' if len(d.text) > 80 else ''}",
                 ]
                 for v in d.violations:
                     label = self.PRINCIPLE_LABELS.get(
@@ -294,48 +393,59 @@ class ReportBuilder:
 
         return "\n".join(lines)
 
-    def _section_5_recommendations(self) -> str:
+    def _section_6_recommendations(self) -> str:
         inst = self.diagnostic.instrument
+        _, classification = self._get_classification()
+
         lines = [
-            "SECTION 5 — RECOMMENDATIONS",
+            "SECTION 6 — RECOMMENDATIONS",
             "-" * 40,
         ]
 
-        # Instrument-level recommendations
         inst_rec = []
+        rec_num = 1
 
         if any(f.principle == "P006" for f in inst.instrument_findings):
             inst_rec.append(
-                "1. ADD REVERSE-SCORED ITEMS: All 75 items are positively "
-                "worded. Add at least 15-20 reverse-scored items (20-25% "
-                "of instrument) to detect and correct acquiescence bias."
+                f"{rec_num}. ADD REVERSE-SCORED ITEMS: All items are "
+                f"positively worded. Add 15-20 reverse-scored items "
+                f"(20-25% of instrument) to detect and correct "
+                f"acquiescence bias risk."
             )
+            rec_num += 1
 
         if any(f.principle == "P020" for f in inst.instrument_findings):
             inst_rec.append(
-                "2. REDUCE INSTRUMENT LENGTH: At 75 items the instrument "
-                "exceeds recommended length for professional respondents. "
-                "Consider reducing to 50-60 items by removing redundant "
-                "or low-discriminating items after pilot testing."
+                f"{rec_num}. REDUCE INSTRUMENT LENGTH: At {inst.total_items} "
+                f"items the instrument exceeds recommended length. "
+                f"Consider reducing to 50-60 items after pilot testing."
             )
+            rec_num += 1
 
         if any(f.principle == "P008" for f in inst.instrument_findings):
             inst_rec.append(
-                "3. IMPROVE SCALE ANCHORS: Replace vague frequency labels "
-                "(Often, Sometimes, Rarely) with numerically anchored "
-                "alternatives or behaviorally defined anchors. "
-                "e.g. '5 - Always (100% of the time)' or use an "
-                "agreement scale (Strongly Agree to Strongly Disagree) "
-                "which is better matched to self-report attitude items."
+                f"{rec_num}. IMPROVE SCALE ANCHORS: Replace vague frequency "
+                f"labels (Often, Sometimes, Rarely) with numerically "
+                f"anchored alternatives or switch to an agreement scale "
+                f"(Strongly Agree to Strongly Disagree) which better "
+                f"matches self-report attitude items."
             )
+            rec_num += 1
+
+        if any(f.principle == "P024" for f in inst.instrument_findings):
+            inst_rec.append(
+                f"{rec_num}. REORDER ITEMS: Funnel principle violations "
+                f"detected. Within each construct block, place general "
+                f"construct items before specific behavioral items."
+            )
+            rec_num += 1
 
         if inst_rec:
             lines.append("INSTRUMENT-LEVEL:")
             lines += inst_rec
             lines.append("")
 
-        # Item-level recommendations
-        lines.append("ITEM-LEVEL (top priority rewrites):")
+        lines.append("ITEM-LEVEL (top 5 priority rewrites):")
 
         top_items = sorted(
             self.diagnostic.high_priority_items,
@@ -344,36 +454,47 @@ class ReportBuilder:
         )[:5]
 
         for d in top_items:
+            primary_rule = d.rules_fired[0] if d.rules_fired else "N/A"
             lines += [
-                f"Item {d.item_id} (composite severity: "
-                f"{d.composite_severity:.2f}):",
-                f"  Current: {d.text[:90]}",
-                f"  Issues : {', '.join(d.rules_fired)}",
-                f"  Action : Rewrite to address "
-                f"{self.PRINCIPLE_LABELS.get(d.rules_fired[0], d.rules_fired[0])}",
+                f"Item {d.item_id} (composite risk: {d.composite_severity:.2f}):",
+                f"  Current : {d.text[:90]}",
+                f"  Risk signals : {', '.join(d.rules_fired)}",
+                f"  Primary action: Address "
+                f"{self.PRINCIPLE_LABELS.get(primary_rule, primary_rule)}",
                 "",
             ]
 
         lines += [
-            "GENERAL RECOMMENDATIONS:",
-            "- Conduct cognitive interviews with 5-10 representative "
-            "respondents before full deployment",
-            "- Pilot test with a small sample to assess item "
-            "discrimination and scale reliability (Cronbach alpha)",
-            "- Consider splitting the instrument into subscales "
-            "administered separately to reduce fatigue",
-            "- Review all HIGH priority items with a survey methodology "
-            "expert before finalizing",
+            "PROCESS RECOMMENDATIONS:",
+            "- Conduct cognitive interviews with 5-10 representative",
+            "  respondents before full deployment",
+            "- Pilot test with a small sample to assess item",
+            "  discrimination and scale reliability (Cronbach alpha)",
+            "- Consider splitting into subscales administered separately",
+            "  to reduce fatigue risk",
+            "- Review all HIGH priority items with a survey methodology",
+            "  expert before finalizing",
+            "- Treat all findings as risk signals requiring expert",
+            "  verification — not confirmed validity failures",
         ]
 
         return "\n".join(lines)
 
     def _footer(self) -> str:
+        score, classification = self._get_classification()
+        score_display = f"{score:.3f}" if score is not None else "N/A"
+
         return (
             f"{'='*70}\n"
             f"  END OF REPORT — Surveyor AI\n"
-            f"  This report is a theory-inspired diagnostic, not a\n"
-            f"  validated psychometric assessment. All findings should\n"
-            f"  be reviewed by a qualified survey methodology expert.\n"
+            f"  Final verdict: {classification} (score: {score_display})\n"
+            f"\n"
+            f"  LIMITATIONS:\n"
+            f"  - Findings are heuristic risk signals, not confirmed bias\n"
+            f"  - Severity weights are principled but not empirically\n"
+            f"    calibrated against human expert ratings\n"
+            f"  - Construct-aware evaluation not yet implemented\n"
+            f"  - Score is not comparable across different rule sets\n"
+            f"  - Not a substitute for expert review or cognitive testing\n"
             f"{'='*70}"
         )
