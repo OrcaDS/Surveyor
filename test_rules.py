@@ -9,7 +9,7 @@ Run from project root: python test_rules.py
 from app.parser.txt_loader import TxtLoader
 from app.parser.text_cleaner import TextCleaner
 from app.parser.survey_parser import SurveyParser
-from app.principles.p012 import P012
+from app.principles.p013 import P013
 
 
 raw = TxtLoader('data/raw_surveys/survey_001.txt').load()
@@ -17,11 +17,11 @@ cleaned = TextCleaner(raw).clean()
 survey = SurveyParser(cleaned).parse()
 items = survey.items
 
-rules = [P012()]
+rules = [P013()]
 
 for rule in rules:
     print(f"{'='*60}")
-    print(f"  {rule.id} — {rule.description}")
+    print(f"  {rule.id} — {rule.description}")  
     print(f"{'='*60}")
 
     if rule.is_instrument_level():
