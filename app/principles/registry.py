@@ -259,9 +259,14 @@ def build_default_registry() -> PrincipleRegistry:
     from app.principles.p011 import P011
     from app.principles.p012 import P012
     from app.principles.p013 import P013
+    from app.principles.p014 import P014
     from app.principles.p015 import P015
     from app.principles.p016 import P016
+    from app.principles.p017 import P017
+    from app.principles.p019 import P019        
     from app.principles.p020 import P020
+    from app.principles.p021 import P021
+    from app.principles.p022 import P022
 
     registry = PrincipleRegistry()
     registry.register(P001())
@@ -277,8 +282,13 @@ def build_default_registry() -> PrincipleRegistry:
     registry.register(P011())
     registry.register(P012())
     registry.register(P013())
+    registry.register(P014())
+    registry.register(P017())
+    registry.register(P019())
     registry.register(P015())
     registry.register(P016())
     registry.register(P020())
+    registry.register(P021())
+    registry.register(P022())
 
     return registry
