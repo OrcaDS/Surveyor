@@ -182,6 +182,35 @@ class PrincipleRegistry:
         p023 = P023()
         self._run_instrument_rule(p023, enriched_items, results)
 
+        # Inject data for P025 (composite scorer)
+        # Must run after P023 and after DiagnosticAggregator has computed
+        # composite severities — so we compute them inline here
+
+        from app.principles.p025 import P025
+
+        for enriched_item in enriched_items:
+            item_id = enriched_item.get("item_id")
+            violations = results.item_violations.get(item_id, [])
+            severities = sorted(
+                [v.severity for v in violations], reverse=True
+            )
+            # Compute composite severity inline
+            composite = severities[0] if severities else 0.0
+            for s in severities[1:]:
+                composite += s * 0.15
+            composite = min(composite, 1.0)
+
+            enriched_item["_composite_severity"] = round(composite, 2)
+            enriched_item["_max_severity"] = max(severities) if severities else 0.0
+
+        # Attach instrument findings to first item for P025 access
+        if enriched_items:
+            enriched_items[0]["_instrument_findings"] = (
+                results.instrument_violations
+            )
+
+        p025 = P025()
+        self._run_instrument_rule(p025, enriched_items, results)
         return results
 
        
