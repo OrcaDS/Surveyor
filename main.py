@@ -18,7 +18,7 @@ from app.principles.registry import build_default_registry
 from app.diagnostics.diagnostic_aggregator import DiagnosticAggregator
 from app.reporting.report_builder import ReportBuilder
 
-SURVEY_PATH = "data/raw_surveys/survey_001.txt"
+SURVEY_PATH = "data/raw_surveys/survey_003.txt"
 TEXT_REPORT_PATH = "data/outputs/report.txt"
 JSON_REPORT_PATH = "data/outputs/report.json"
 
