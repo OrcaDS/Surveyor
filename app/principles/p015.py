@@ -62,6 +62,7 @@ PROXY NOTE:
 
 import re
 from app.principles.base_rule import BaseRule, Violation
+from app.principles.signals import Signal, SignalType
 
 
 class P015(BaseRule):
@@ -156,11 +157,25 @@ class P015(BaseRule):
             p for p in self.DOUBLE_NEGATION_PATTERNS
             if re.search(p, text)
         ]
+
         if double_neg_hits:
+            matched = [
+                re.search(p, text).group().strip()
+                for p in double_neg_hits
+            ]
+
             signals.append(
-                "double negation detected — polarity reversed twice, "
-                "high risk of respondent misinterpretation"
+                Signal(
+                    type=SignalType.DOUBLE_NEGATION,
+                    description=(
+                        "double negation detected — polarity reversed twice, "
+                        "high risk of respondent misinterpretation"
+                    ),
+                    terms=matched,
+                    confidence=0.95,
+                )
             )
+
             highest_severity = 0.75
 
         # --- Signal 1: Main-clause negation ---
@@ -169,16 +184,26 @@ class P015(BaseRule):
                 p for p in self.MAIN_CLAUSE_NEGATION
                 if re.search(p, text)
             ]
+
             if main_neg_hits:
                 matched = [
                     re.search(p, text).group().strip()
                     for p in main_neg_hits
                 ]
+
                 signals.append(
-                    f"main-clause negation detected: "
-                    f"{', '.join(repr(m) for m in matched)} — "
-                    f"requires mental polarity reversal before scale mapping"
+                    Signal(
+                        type=SignalType.MAIN_CLAUSE_NEGATION,
+                        description=(
+                            "main-clause negation detected — "
+                            "requires mental polarity reversal "
+                            "before scale mapping"
+                        ),
+                        terms=matched,
+                        confidence=0.85,
+                    )
                 )
+
                 highest_severity = max(highest_severity, 0.45)
 
         # --- Signal 3: Negated prefix terms ---
@@ -187,25 +212,35 @@ class P015(BaseRule):
             for p in self.NEGATED_PREFIX_TERMS
             if re.search(p, text)
         ]
+
         if prefix_hits:
             signals.append(
-                f"negated prefix term(s): "
-                f"{', '.join(repr(h) for h in prefix_hits)} — "
-                f"subtle polarity inversion adds parsing burden"
+                Signal(
+                    type=SignalType.NEGATED_PREFIX_TERM,
+                    description=(
+                        "negated prefix term(s) detected — "
+                        "subtle polarity inversion adds parsing burden"
+                    ),
+                    terms=prefix_hits,
+                    confidence=0.75,
+                )
             )
+
             highest_severity = max(highest_severity, 0.20)
 
         if not signals:
             return None
 
-        evidence = (
-            "Negated wording detected — additional cognitive transformation "
-            "required before scale mapping increases error rate. "
-            "Signal(s): " + " | ".join(signals)
+        # Evidence derived from signals — includes matched terms
+        evidence = " | ".join(
+            f"{s.description}: {', '.join(repr(t) for t in s.terms)}"
+            if s.terms else s.description
+            for s in signals
         )
 
         return Violation(
             principle=self.id,
             severity=round(highest_severity, 2),
-            evidence=evidence
+            evidence=evidence,
+            signals=signals
         )

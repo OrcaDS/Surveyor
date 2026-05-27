@@ -59,6 +59,7 @@ PROXY NOTE:
 
 import re
 from app.principles.base_rule import BaseRule, Violation
+from app.principles.signals import Signal, SignalType
 
 
 class P007(BaseRule):
@@ -112,15 +113,21 @@ class P007(BaseRule):
         # --- Signal 1: Excessive word count ---
         if word_count >= self.HIGH_LENGTH_THRESHOLD:
             signals.append(
-                f"high word count ({word_count} words, "
-                f"threshold: {self.HIGH_LENGTH_THRESHOLD}) — "
-                f"exceeds working memory load for reliable processing"
+                Signal(
+                    type=SignalType.HIGH_WORD_COUNT,
+                    description="high word count detected",
+                    terms=[str(word_count)],
+                    confidence=0.85,
+                )
             )
         elif word_count >= self.MILD_LENGTH_THRESHOLD:
             signals.append(
-                f"elevated word count ({word_count} words, "
-                f"threshold: {self.MILD_LENGTH_THRESHOLD}) — "
-                f"approaching working memory limit"
+                Signal(
+                    type=SignalType.ELEVATED_WORD_COUNT,
+                    description="elevated word count detected",
+                    terms=[str(word_count)],
+                    confidence=0.80,
+                )
             )
 
         # --- Signal 2: Embedded subordinate clauses ---
@@ -130,9 +137,12 @@ class P007(BaseRule):
         )
         if clause_count >= 3:
             signals.append(
-                f"high subordinate clause density "
-                f"({clause_count} clause connectors detected) — "
-                f"recursive parsing load likely to be shortcut"
+                Signal(
+                    type=SignalType.HIGH_CLAUSE_DENSITY,
+                    description="high subordinate clause density detected",
+                    terms=[str(clause_count)],
+                    confidence=0.85,
+                )
             )
 
         # --- Signal 3: Information integration demand ---
@@ -142,16 +152,26 @@ class P007(BaseRule):
         has_causal = any(
             re.search(p, text_lower) for p in self.CAUSAL_PATTERNS
         )
+
         if has_conditional or has_causal:
             chain_type = []
+            terms = []
+
             if has_conditional:
                 chain_type.append("conditional (if...then)")
+                terms.append("if...then")
+
             if has_causal:
                 chain_type.append("causal chain (because...therefore)")
+                terms.append("because...therefore")
+
             signals.append(
-                f"information integration demand: "
-                f"{' and '.join(chain_type)} structure requires "
-                f"multi-proposition mental combination before responding"
+                Signal(
+                    type=SignalType.INTEGRATION_DEMAND,
+                    description="information integration demand detected",
+                    terms=terms,
+                    confidence=0.85,
+                )
             )
 
         if not signals:
@@ -161,18 +181,20 @@ class P007(BaseRule):
         severity_map = {1: 0.30, 2: 0.60}
         severity = severity_map.get(len(signals), 0.75)
 
-        # Slight adjustment: if only signal 2 fired (clauses, not length)
-        if len(signals) == 1 and "clause" in signals[0]:
+        # Special adjustment preserved from original logic
+        if len(signals) == 1 and signals[0].type == SignalType.HIGH_CLAUSE_DENSITY:
             severity = 0.35
 
-        evidence = (
-            "Satisficing risk — item structural complexity may cause "
-            "respondents to abandon effortful processing. "
-            "Signal(s): " + " | ".join(signals)
+        # Evidence derived from signals (with readable terms preserved)
+        evidence = " | ".join(
+            f"{s.description}: {', '.join(repr(t) for t in s.terms)}"
+            if s.terms else s.description
+            for s in signals
         )
 
         return Violation(
             principle=self.id,
             severity=round(severity, 2),
-            evidence=evidence
+            evidence=evidence,
+            signals=signals
         )

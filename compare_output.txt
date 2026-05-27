@@ -1,0 +1,1581 @@
+be honest, dont hype things up, let's compare old output from new output:
+
+old:
+
+======================================================================
+  SURVEYOR AI — SURVEY VALIDITY AUDIT REPORT
+======================================================================
+  Generated      : 2026-05-25 14:21:39
+  Items evaluated: 75
+  Rules applied  : 24
+
+  ┌─────────────────────────────────────────────────┐
+  │  VALIDITY SCORE  : 0.440                       │
+  │  CLASSIFICATION  : NEEDS REVISION                │
+  │  RISK LEVEL      : HIGH                          │
+  │  Risk: [████████░░░░░░░░░░░░] 44%                 │
+  └─────────────────────────────────────────────────┘
+
+  DISCLAIMER: This report is a theory-inspired heuristic
+  diagnostic. Findings indicate RISK, not confirmed bias.
+  All outputs should be reviewed by a qualified expert.
+======================================================================
+
+SECTION 1 — INSTRUMENT OVERVIEW
+----------------------------------------
+Total items          : 75
+Scale                : 5-point scale (Always / Often / Sometimes / Rarely / Never)
+Avg word count/item  : 19.48
+Question items       : 0
+Statement items      : 75
+
+Items with violations: 67 (89.3%)
+Clean items          : 8
+Total item violations: 166
+Instrument findings  : 8
+
+Priority breakdown:
+  HIGH   : 33 items
+  MEDIUM : 28 items
+  LOW    : 6 items
+  CLEAN  : 8 items
+
+Rule violation counts:
+  P001 (CASM Response Process Failure): 17 █████████████████
+  P002 (Double-Barreled Question): 14 ██████████████
+  P003 (Undefined/Ambiguous Terms): 18 ██████████████████
+  P004 (Recall Period Calibration): 0 
+  P005 (Social Desirability Bias Risk): 33 ██████████████████████████████
+  P006 (Acquiescence Bias Risk): 1 █
+  P007 (Satisficing Risk): 32 ██████████████████████████████
+  P008 (Scale Anchor Calibration): 1 █
+  P009 (Response Option Order Effects): 0 
+  P010 (Context/Carry-Over Effects): 1 █
+  P011 (Middle Category and DK Option): 1 █
+  P012 (Exhaustive/Mutually Exclusive Options): 0 
+  P013 (Scale Direction Consistency): 0 
+  P014 (Open vs. Closed Question Trade-offs): 1 █
+  P015 (Negative/Double-Negative Wording): 5 █████
+  P016 (Leading and Loaded Wording Risk): 34 ██████████████████████████████
+  P017 (Recall-Enabling Strategies): 0 
+  P019 (Response Task Specification): 0 
+  P020 (Survey Length and Response Fatigue): 1 █
+  P021 (Aural vs. Visual Mode Differences): 12 ████████████
+  P022 (Visual Layout Effects): 0 
+  P024 (Funnel Principle): 1 █
+
+SECTION 2 — VALIDITY SCORE BREAKDOWN (P025)
+----------------------------------------
+Composite Validity Score : 0.440 / 1.000
+Classification           : NEEDS REVISION
+
+Interpretation:
+  The instrument has moderate methodological problems that may affect data quality. Revision of flagged items and instrument-level issues is recommended before deployment.
+
+Score components (higher = more problems detected):
+  Component 1 (40% weight) — High-severity item ratio
+    Items with any violation above severity 0.50.
+    Ensures minor flags don't inflate the score.
+
+  Component 2 (35% weight) — Mean composite severity
+    Average severity across all items (clean items = 0.0).
+    Reflects overall burden of problems per item.
+
+  Component 3 (25% weight) — Instrument finding severity
+    Weighted mean of instrument-level finding severities.
+    Weighted by finding count — more findings compound.
+
+Classification thresholds:
+  VALID          : score < 0.40
+  NEEDS REVISION : 0.40 <= score < 0.70
+  INVALID        : score >= 0.70
+
+IMPORTANT: This score is a heuristic risk index, not a
+validated psychometric measure. Severity weights are
+principled but not empirically calibrated. Interpret
+alongside the full diagnostic report.
+
+SECTION 3 — INSTRUMENT-LEVEL FINDINGS
+----------------------------------------
+Finding 1: P006 — Acquiescence Bias Risk
+  Severity : 0.9
+  Affected : All 75 items
+  Evidence : Acquiescence bias risk detected. 75/75 items (100%) are positively worded with no main-clause negation. No reverse-scored items found. Yea-saying cannot be detected or corrected in the data. Recommend...
+
+Finding 2: P020 — Survey Length and Response Fatigue
+  Severity : 0.85
+  Affected : All 18 items
+  Evidence : Response fatigue risk detected (75 items, ~8.3 min estimated). Problem(s): high item count (75 items, threshold: 75) — Dillman (2014) documents significant response quality degradation at this length ...
+
+Finding 3: P023 — Behavior Coding Signal
+  Severity : 0.8
+  Affected : All 75 items
+  Evidence : Behavior coding proxy signals detected. Finding 1: 30 item(s) flagged with 3+ simultaneous rule violations (behavior coding proxy: high problem frequency). Top items: item 54 (6 rules: ['P001', 'P002'...
+
+Finding 4: P024 — Funnel Principle
+  Severity : 0.65
+  Affected : All 17 items
+  Evidence : Funnel principle violation(s) detected — 10 specific item(s) precede general item(s) within construct block(s), causing specific-to-general priming. Violation pair(s): item 1 (specific) before item 2 ...
+
+Finding 5: P010 — Context/Carry-Over Effects
+  Severity : 0.6
+  Affected : All 34 items
+  Evidence : Carry-over and context effect risk detected from item sequencing. Signal(s): block transition contamination risk at 4 construct block boundaries — respondents carry prior cognitive frame into new cons...
+
+Finding 6: P008 — Scale Anchor Calibration
+  Severity : 0.35
+  Affected : All 75 items
+  Evidence : Scale anchor calibration problem(s) detected (5-point scale, labels: 'Always', 'Often', 'Sometimes', 'Rarely', 'Never'). Problem(s): vague quantifier label(s) with no numerical referent: 'often', 'som...
+
+Finding 7: P011 — Middle Category and DK Option
+  Severity : 0.35
+  Affected : All 75 items
+  Evidence : Scale design problem(s) detected. Problem(s): no Don't Know or Not Applicable option detected in scale (5-point scale: 'Always', 'Often', 'Sometimes', 'Rarely', 'Never'). Respondents who lack an opini...
+
+
+SECTION 4 — HIGH PRIORITY ITEMS (require immediate attention)
+----------------------------------------
+NOTE: Findings indicate RISK signals, not confirmed bias.
+      Verify all flagged items through expert review.
+
+Item  5 | composite=0.65 | max=0.65 | rules fired: P016
+  Text: I carry out a policy or course of action, mandated by the region or the Department of Educ...
+  [P016] sev=0.65 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 11 | composite=0.51 | max=0.40 | rules fired: P003, P005, P016
+  Text: I have the authority to instruct disciplinary action to subordinates who do not obey me.
+  [P003] sev=0.30 Undefined/Ambiguous Terms: Ambiguous undefined term(s) detected. undefined scope role term(s): 'subordinate...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 13 | composite=0.76 | max=0.65 | rules fired: P005, P007, P016
+  Text: I have the power to command an order, which is underpinned by rules and even laws to exert...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P016] sev=0.65 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 14 | composite=0.65 | max=0.65 | rules fired: P016
+  Text: I ensure the implementation of policies as established by the Department of Education.
+  [P016] sev=0.65 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 17 | composite=1.00 | max=0.85 | rules fired: P001, P002, P003, P007, P021
+  Text: I understand that rewarding gives gratification to teaching and non-teaching personnel and...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'total developm...
+  [P002] sev=0.85 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): evaluative pair joined by c...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: Ambiguous undefined term(s) detected. undefined scope role term(s): 'personnel'...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (31 words) exceeds au...
+
+Item 19 | composite=0.50 | max=0.40 | rules fired: P001, P005, P016
+  Text: I affirm that giving praise is a strong motivator and can be considered as an intangible r...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 3 (Judgment): unmeasurable judgment target(s) detected: 'strong motivator'...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 21 | composite=0.43 | max=0.30 | rules fired: P001, P003, P007, P021
+  Text: I understand that if the reward available can only be given to a subset of teaching and no...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'healthy compet...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: Ambiguous undefined term(s) detected. undefined scope role term(s): 'personnel'...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (31 words) exceeds au...
+
+Item 22 | composite=0.70 | max=0.60 | rules fired: P002, P007, P016
+  Text: I am able to give special benefits and rewards to people because I find it advantageous to...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): two subject-verb phrases de...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 23 | composite=0.80 | max=0.60 | rules fired: P001, P005, P007, P016, P021
+  Text: I attest that if a reward has been promised to the entire schools division if they hit an ...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'strong bond'...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P007] sev=0.60 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (37 words) exceeds au...
+
+Item 26 | composite=0.49 | max=0.40 | rules fired: P003, P005, P007
+  Text: I affirm that the anticipation of a reward can encourage teaching and non-teaching personn...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: Ambiguous undefined term(s) detected. undefined scope role term(s): 'personnel'...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+
+Item 28 | composite=0.52 | max=0.40 | rules fired: P005, P007, P015, P021
+  Text: I assert that the use of reward can get a subordinate to follow an instruction, with power...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P015] sev=0.20 Negative/Double-Negative Wording: Negated wording detected — additional cognitive transformation required before s...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (28 words) exceeds au...
+
+Item 29 | composite=0.74 | max=0.60 | rules fired: P001, P002, P005, P007
+  Text: I attest that providing positive reinforcement and incentivizing people can foster creativ...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'healthy compet...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): two distinct action verbs j...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+
+Item 30 | composite=0.61 | max=0.50 | rules fired: P001, P003, P016
+  Text: I understand that giving reward plays an important role towards an effective leadership.
+  [P001] sev=0.50 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'effective lead...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: Ambiguous undefined term(s) detected. evaluative term(s) without defined standar...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 33 | composite=0.69 | max=0.60 | rules fired: P002, P007, P021
+  Text: I use suspension or termination to ensure that the rules and policies of the schools divis...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): two distinct action verbs j...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (26 words) exceeds au...
+
+Item 35 | composite=0.51 | max=0.40 | rules fired: P005, P007, P016
+  Text: I have the ability to control the behavior of my subordinates by ensuring that they adhere...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 36 | composite=0.55 | max=0.40 | rules fired: P005, P007, P016, P021
+  Text: I have the ability to force a subordinate to follow an order by threatening the employee w...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (27 words) exceeds au...
+
+Item 37 | composite=0.38 | max=0.30 | rules fired: P003, P007, P015
+  Text: If the schools division is undergoing any changes, then coercion could deter any resistanc...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: Ambiguous undefined term(s) detected. undefined scope role term(s): 'personnel'...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P015] sev=0.20 Negative/Double-Negative Wording: Negated wording detected — additional cognitive transformation required before s...
+
+Item 38 | composite=0.51 | max=0.40 | rules fired: P003, P005, P016
+  Text: I affirm that coercion can ensure that teaching and non-teaching personnel will follow rul...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: Ambiguous undefined term(s) detected. undefined scope role term(s): 'personnel'...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 40 | composite=0.95 | max=0.85 | rules fired: P002, P003, P014
+  Text: I develop discipline among teaching and nonteaching personnel, which I believe improves ef...
+  [P002] sev=0.85 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): two subject-verb phrases de...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: Ambiguous undefined term(s) detected. undefined scope role term(s): 'personnel'...
+  [P014] sev=0.40 Open vs. Closed Question Trade-offs: Question format mismatch detected. Signal(s): attitude/belief stem (['i believe'...
+
+Item 41 | composite=0.74 | max=0.65 | rules fired: P005, P015, P016
+  Text: I attest that I have the authority to prevent or eliminate harassment and discrimination i...
+  [P005] sev=0.65 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P015] sev=0.20 Negative/Double-Negative Wording: Negated wording detected — additional cognitive transformation required before s...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 42 | composite=0.58 | max=0.50 | rules fired: P003, P007, P015
+  Text: If teaching and non-teaching personnel defy Department policies or standards, I immediatel...
+  [P003] sev=0.50 Undefined/Ambiguous Terms: Ambiguous undefined term(s) detected. undefined scope role term(s): 'personnel' ...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P015] sev=0.20 Negative/Double-Negative Wording: Negated wording detected — additional cognitive transformation required before s...
+
+Item 43 | composite=0.49 | max=0.40 | rules fired: P003, P007, P016
+  Text: At times, I assert that punishment, or even the threat of punishment is necessary to estab...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: Ambiguous undefined term(s) detected. evaluative term(s) without defined standar...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 48 | composite=0.87 | max=0.65 | rules fired: P001, P002, P007, P016, P021
+  Text: I ensure to give my people the satisfaction they need at work by creating an inspiring vis...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'positive relat...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): two distinct action verbs j...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P016] sev=0.65 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (28 words) exceeds au...
+
+Item 54 | composite=0.89 | max=0.60 | rules fired: P001, P002, P005, P007, P016, P021
+  Text: I ascertain a deep appreciation of empowerment for it involves critical decision-making an...
+  [P001] sev=0.50 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'desired action...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): two distinct action verbs j...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (32 words) exceeds au...
+
+Item 55 | composite=0.43 | max=0.30 | rules fired: P001, P003, P007, P021
+  Text: I let them discuss their thoughts and how their contributions could impact the strategic i...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'desired goal',...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: Ambiguous undefined term(s) detected. undefined scope role term(s): 'members'...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (36 words) exceeds au...
+
+Item 57 | composite=0.75 | max=0.60 | rules fired: P002, P005, P007, P021
+  Text: I practice what I preach to build trust with my people as well as recognize the hard work ...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): multi-proposition connector...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (32 words) exceeds au...
+
+Item 62 | composite=0.74 | max=0.65 | rules fired: P002, P005
+  Text: I assert that I am well trained in handling problems using my intellect and also a good pe...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): multi-proposition connector...
+  [P005] sev=0.65 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+
+Item 63 | composite=0.55 | max=0.40 | rules fired: P005, P007, P016, P021
+  Text: I have the ability to communicate, persuade, negotiate, influence, delegate, and interact ...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (27 words) exceeds au...
+
+Item 65 | composite=0.54 | max=0.40 | rules fired: P001, P003, P005, P016
+  Text: I guarantee to have complete knowledge of ethical issues, which members of my organization...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'complete knowl...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: Ambiguous undefined term(s) detected. undefined scope role term(s): 'members'...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 66 | composite=0.50 | max=0.40 | rules fired: P001, P005, P016
+  Text: I am a strong motivator and believe that every human interaction involves a complex proces...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 3 (Judgment): unmeasurable judgment target(s) detected: 'strong motivator'...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 71 | composite=0.54 | max=0.40 | rules fired: P001, P005, P007, P016
+  Text: I have the superior knowledge, expertise, and proven ability to perform my duties and resp...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 3 (Judgment): unmeasurable judgment target(s) detected: 'superior knowledg...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 73 | composite=0.76 | max=0.60 | rules fired: P001, P002, P005, P016
+  Text: I have an elevated level of knowledge or specific skill set that others in the organizatio...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 3 (Judgment): unmeasurable judgment target(s) detected: 'elevated level'...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): evaluative pair joined by c...
+  [P005] sev=0.40 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+
+Item 75 | composite=0.84 | max=0.65 | rules fired: P001, P005, P007, P016, P021
+  Text: I know that I possess superior skills, knowledge, and abilities that enables me to perform...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 3 (Judgment): unmeasurable judgment target(s) detected: 'better understand...
+  [P005] sev=0.65 Social Desirability Bias Risk: Social desirability pressure detected — respondents are unlikely to disagree wit...
+  [P007] sev=0.30 Satisficing Risk: Satisficing risk — item structural complexity may cause respondents to abandon e...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: Leading/loaded wording detected — directional pressure embedded in item wording ...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (28 words) exceeds au...
+
+
+SECTION 5 — FULL ITEM DIAGNOSTICS
+----------------------------------------
+Item  1 | LOW    | composite=0.20 | violations=1
+  Text: I am in the position to punish uncooperative and difficult people.
+  [P015] Negative/Double-Negative Wording (sev=0.20)
+
+Item  2 | MEDIUM | composite=0.40 | violations=1
+  Text: I establish procedures for effective and efficient operations in all departments...
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item  3 | MEDIUM | composite=0.45 | violations=2
+  Text: I make sure that my subordinates will comply with what is needed because they be...
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item  4 | MEDIUM | composite=0.46 | violations=2
+  Text: I have the authority to instruct and set direction for the entire schools divisi...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item  5 | HIGH   | composite=0.65 | violations=1
+  Text: I carry out a policy or course of action, mandated by the region or the Departme...
+  [P016] Leading and Loaded Wording Risk (sev=0.65)
+
+Item  6 | MEDIUM | composite=0.40 | violations=1
+  Text: I maintain complete and total control of the school division.
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item  7 | MEDIUM | composite=0.40 | violations=1
+  Text: I ensure quality and accessible education in schools and learning centers as one...
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item  8 | MEDIUM | composite=0.40 | violations=1
+  Text: I maintain formal and distant relationships with my people in the schools divisi...
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item  9 | CLEAN | I know that my people will obey my command and orders becaus...
+Item 10 | LOW    | composite=0.30 | violations=1
+  Text: I supervise the overall operation of the schools division.
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+
+Item 11 | HIGH   | composite=0.51 | violations=3
+  Text: I have the authority to instruct disciplinary action to subordinates who do not ...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 12 | CLEAN | I use my position and authority to control the people within...
+Item 13 | HIGH   | composite=0.76 | violations=3
+  Text: I have the power to command an order, which is underpinned by rules and even law...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.65)
+
+Item 14 | HIGH   | composite=0.65 | violations=1
+  Text: I ensure the implementation of policies as established by the Department of Educ...
+  [P016] Leading and Loaded Wording Risk (sev=0.65)
+
+Item 15 | CLEAN | I give orders to my people since I am the head of the school...
+Item 16 | CLEAN | I can use reward as a negotiating strategy in directing and ...
+Item 17 | HIGH   | composite=1.00 | violations=5
+  Text: I understand that rewarding gives gratification to teaching and non-teaching per...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P002] Double-Barreled Question (sev=0.85)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 18 | MEDIUM | composite=0.46 | violations=2
+  Text: I have the ability to confer or withhold rewards such as money, privileges, prom...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 19 | HIGH   | composite=0.50 | violations=3
+  Text: I affirm that giving praise is a strong motivator and can be considered as an in...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 20 | MEDIUM | composite=0.34 | violations=2
+  Text: Giving reward may bring a better change in the behavior of teaching and non-teac...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+
+Item 21 | HIGH   | composite=0.43 | violations=4
+  Text: I understand that if the reward available can only be given to a subset of teach...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 22 | HIGH   | composite=0.70 | violations=3
+  Text: I am able to give special benefits and rewards to people because I find it advan...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 23 | HIGH   | composite=0.80 | violations=5
+  Text: I attest that if a reward has been promised to the entire schools division if th...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.60)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 24 | MEDIUM | composite=0.66 | violations=2
+  Text: I assert that the use of reward can promote trust and loyalty to the schools div...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 25 | CLEAN | I can motivate people to respond through promotions and awar...
+Item 26 | HIGH   | composite=0.49 | violations=3
+  Text: I affirm that the anticipation of a reward can encourage teaching and non-teachi...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 27 | MEDIUM | composite=0.34 | violations=2
+  Text: I understand that I can motivate teaching and nonteaching personnel by providing...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 28 | HIGH   | composite=0.52 | violations=4
+  Text: I assert that the use of reward can get a subordinate to follow an instruction, ...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P015] Negative/Double-Negative Wording (sev=0.20)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 29 | HIGH   | composite=0.74 | violations=4
+  Text: I attest that providing positive reinforcement and incentivizing people can fost...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P002] Double-Barreled Question (sev=0.60)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 30 | HIGH   | composite=0.61 | violations=3
+  Text: I understand that giving reward plays an important role towards an effective lea...
+  [P001] CASM Response Process Failure (sev=0.50)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 31 | MEDIUM | composite=0.40 | violations=1
+  Text: I can reprimand my subordinates because I am capable to do it.
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 32 | MEDIUM | composite=0.46 | violations=2
+  Text: I assert that I have the ability and authority to punish if expectations are not...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 33 | HIGH   | composite=0.69 | violations=3
+  Text: I use suspension or termination to ensure that the rules and policies of the sch...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P007] Satisficing Risk (sev=0.30)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 34 | CLEAN | I can make things difficult to some people specifically if h...
+Item 35 | HIGH   | composite=0.51 | violations=3
+  Text: I have the ability to control the behavior of my subordinates by ensuring that t...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 36 | HIGH   | composite=0.55 | violations=4
+  Text: I have the ability to force a subordinate to follow an order by threatening the ...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 37 | HIGH   | composite=0.38 | violations=3
+  Text: If the schools division is undergoing any changes, then coercion could deter any...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+  [P015] Negative/Double-Negative Wording (sev=0.20)
+
+Item 38 | HIGH   | composite=0.51 | violations=3
+  Text: I affirm that coercion can ensure that teaching and non-teaching personnel will ...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 39 | LOW    | composite=0.30 | violations=1
+  Text: I understand that coerciveness aids in the demand of compliance to the organizat...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+
+Item 40 | HIGH   | composite=0.95 | violations=3
+  Text: I develop discipline among teaching and nonteaching personnel, which I believe i...
+  [P002] Double-Barreled Question (sev=0.85)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P014] Open vs. Closed Question Trade-offs (sev=0.40)
+
+Item 41 | HIGH   | composite=0.74 | violations=3
+  Text: I attest that I have the authority to prevent or eliminate harassment and discri...
+  [P005] Social Desirability Bias Risk (sev=0.65)
+  [P015] Negative/Double-Negative Wording (sev=0.20)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 42 | HIGH   | composite=0.58 | violations=3
+  Text: If teaching and non-teaching personnel defy Department policies or standards, I ...
+  [P003] Undefined/Ambiguous Terms (sev=0.50)
+  [P007] Satisficing Risk (sev=0.30)
+  [P015] Negative/Double-Negative Wording (sev=0.20)
+
+Item 43 | HIGH   | composite=0.49 | violations=3
+  Text: At times, I assert that punishment, or even the threat of punishment is necessar...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 44 | MEDIUM | composite=0.40 | violations=1
+  Text: I affirm that coercion increases an antagonistic climate and enforced compliance...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 45 | MEDIUM | composite=0.45 | violations=2
+  Text: I know that coercion is effective to control what is happening inside the school...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 46 | MEDIUM | composite=0.65 | violations=2
+  Text: I am using my charisma to attract others, build loyalty with them and use it for...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 47 | CLEAN | I desire for a feeling of oneness and acceptance in a valued...
+Item 48 | HIGH   | composite=0.87 | violations=5
+  Text: I ensure to give my people the satisfaction they need at work by creating an ins...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P002] Double-Barreled Question (sev=0.60)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.65)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 49 | CLEAN | I appreciate extra effort to applaud accomplishments rather ...
+Item 50 | LOW    | composite=0.30 | violations=1
+  Text: I extend beyond clocking in and clocking out each day, even beyond work-related ...
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 51 | MEDIUM | composite=0.40 | violations=1
+  Text: I keep and commit with my promises and do unsolicited favors for my people.
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 52 | MEDIUM | composite=0.34 | violations=2
+  Text: I engage and affiliate my people in activities that are challenging, interesting...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 53 | MEDIUM | composite=0.65 | violations=2
+  Text: I use sincere forms of ingratiation as well as communicate with them in order to...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 54 | HIGH   | composite=0.89 | violations=6
+  Text: I ascertain a deep appreciation of empowerment for it involves critical decision...
+  [P001] CASM Response Process Failure (sev=0.50)
+  [P002] Double-Barreled Question (sev=0.60)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 55 | HIGH   | composite=0.43 | violations=4
+  Text: I let them discuss their thoughts and how their contributions could impact the s...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 56 | LOW    | composite=0.25 | violations=1
+  Text: I utilize my personal attributes, personalities, and appearance to articulate or...
+  [P001] CASM Response Process Failure (sev=0.25)
+
+Item 57 | HIGH   | composite=0.75 | violations=4
+  Text: I practice what I preach to build trust with my people as well as recognize the ...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 58 | MEDIUM | composite=0.40 | violations=1
+  Text: I inspire and motivate my people to be fully involved in achieving goals and obj...
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 59 | MEDIUM | composite=0.45 | violations=2
+  Text: I treat my people with respect no matter what their rank is and always place a l...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 60 | MEDIUM | composite=0.44 | violations=2
+  Text: I ascertain that the power of imitation and modeling is an important factor to i...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 61 | MEDIUM | composite=0.45 | violations=2
+  Text: I make certain to create my own ethical codes and ethical guidelines for these g...
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 62 | HIGH   | composite=0.74 | violations=2
+  Text: I assert that I am well trained in handling problems using my intellect and also...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P005] Social Desirability Bias Risk (sev=0.65)
+
+Item 63 | HIGH   | composite=0.55 | violations=4
+  Text: I have the ability to communicate, persuade, negotiate, influence, delegate, and...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 64 | MEDIUM | composite=0.60 | violations=1
+  Text: I make bargains with people using my high-level of skills and knowledge to achie...
+  [P002] Double-Barreled Question (sev=0.60)
+
+Item 65 | HIGH   | composite=0.54 | violations=4
+  Text: I guarantee to have complete knowledge of ethical issues, which members of my or...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 66 | HIGH   | composite=0.50 | violations=3
+  Text: I am a strong motivator and believe that every human interaction involves a comp...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 67 | MEDIUM | composite=0.40 | violations=1
+  Text: I ascertain that rank means responsibility but not authority, and superintendent...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 68 | MEDIUM | composite=0.46 | violations=2
+  Text: I have the ability to stand out in certain areas that lead to my advancement wit...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 69 | MEDIUM | composite=0.40 | violations=1
+  Text: I respect organizational needs and tailor my knowledge to suit the requirements.
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 70 | LOW    | composite=0.30 | violations=1
+  Text: I intend to continue learning and improving through continual formal study, trai...
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 71 | HIGH   | composite=0.54 | violations=4
+  Text: I have the superior knowledge, expertise, and proven ability to perform my dutie...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 72 | MEDIUM | composite=0.45 | violations=2
+  Text: I can understand and effectively communicate educational content to my people in...
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 73 | HIGH   | composite=0.76 | violations=4
+  Text: I have an elevated level of knowledge or specific skill set that others in the o...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P002] Double-Barreled Question (sev=0.60)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 74 | MEDIUM | composite=0.45 | violations=2
+  Text: I attest that the more I learn a lot of things, the better I can hold my influen...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 75 | HIGH   | composite=0.84 | violations=5
+  Text: I know that I possess superior skills, knowledge, and abilities that enables me ...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P005] Social Desirability Bias Risk (sev=0.65)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+
+SECTION 6 — RECOMMENDATIONS
+----------------------------------------
+INSTRUMENT-LEVEL:
+1. ADD REVERSE-SCORED ITEMS: All items are positively worded. Add 15-20 reverse-scored items (20-25% of instrument) to detect and correct acquiescence bias risk.
+2. REDUCE INSTRUMENT LENGTH: At 75 items the instrument exceeds recommended length. Consider reducing to 50-60 items after pilot testing.
+3. IMPROVE SCALE ANCHORS: Replace vague frequency labels (Often, Sometimes, Rarely) with numerically anchored alternatives or switch to an agreement scale (Strongly Agree to Strongly Disagree) which better matches self-report attitude items.
+4. REORDER ITEMS: Funnel principle violations detected. Within each construct block, place general construct items before specific behavioral items.
+
+ITEM-LEVEL (top 5 priority rewrites):
+Item 17 (composite risk: 1.00):
+  Current : I understand that rewarding gives gratification to teaching and non-teaching personnel and
+  Risk signals : P001, P002, P003, P007, P021
+  Primary action: Address CASM Response Process Failure
+
+Item 40 (composite risk: 0.95):
+  Current : I develop discipline among teaching and nonteaching personnel, which I believe improves ef
+  Risk signals : P002, P003, P014
+  Primary action: Address Double-Barreled Question
+
+Item 54 (composite risk: 0.89):
+  Current : I ascertain a deep appreciation of empowerment for it involves critical decision-making an
+  Risk signals : P001, P002, P005, P007, P016, P021
+  Primary action: Address CASM Response Process Failure
+
+Item 48 (composite risk: 0.87):
+  Current : I ensure to give my people the satisfaction they need at work by creating an inspiring vis
+  Risk signals : P001, P002, P007, P016, P021
+  Primary action: Address CASM Response Process Failure
+
+Item 75 (composite risk: 0.84):
+  Current : I know that I possess superior skills, knowledge, and abilities that enables me to perform
+  Risk signals : P001, P005, P007, P016, P021
+  Primary action: Address CASM Response Process Failure
+
+PROCESS RECOMMENDATIONS:
+- Conduct cognitive interviews with 5-10 representative
+  respondents before full deployment
+- Pilot test with a small sample to assess item
+  discrimination and scale reliability (Cronbach alpha)
+- Consider splitting into subscales administered separately
+  to reduce fatigue risk
+- Review all HIGH priority items with a survey methodology
+  expert before finalizing
+- Treat all findings as risk signals requiring expert
+  verification — not confirmed validity failures
+
+======================================================================
+  END OF REPORT — Surveyor AI
+  Final verdict: NEEDS REVISION (score: 0.440)
+
+  LIMITATIONS:
+  - Findings are heuristic risk signals, not confirmed bias
+  - Severity weights are principled but not empirically
+    calibrated against human expert ratings
+  - Construct-aware evaluation not yet implemented
+  - Score is not comparable across different rule sets
+  - Not a substitute for expert review or cognitive testing
+======================================================================
+
+New:
+
+======================================================================
+  SURVEYOR AI — SURVEY VALIDITY AUDIT REPORT
+======================================================================
+  Generated      : 2026-05-25 21:04:53
+  Items evaluated: 75
+  Rules applied  : 24
+
+  ┌─────────────────────────────────────────────────┐
+  │  VALIDITY SCORE  : 0.440                       │
+  │  CLASSIFICATION  : NEEDS REVISION                │
+  │  RISK LEVEL      : HIGH                          │
+  │  Risk: [████████░░░░░░░░░░░░] 44%                 │
+  └─────────────────────────────────────────────────┘
+
+  DISCLAIMER: This report is a theory-inspired heuristic
+  diagnostic. Findings indicate RISK, not confirmed bias.
+  All outputs should be reviewed by a qualified expert.
+======================================================================
+
+SECTION 1 — INSTRUMENT OVERVIEW
+----------------------------------------
+Total items          : 75
+Scale                : 5-point scale (Always / Often / Sometimes / Rarely / Never)
+Avg word count/item  : 19.48
+Question items       : 0
+Statement items      : 75
+
+Items with violations: 67 (89.3%)
+Clean items          : 8
+Total item violations: 166
+Instrument findings  : 8
+
+Priority breakdown:
+  HIGH   : 33 items
+  MEDIUM : 28 items
+  LOW    : 6 items
+  CLEAN  : 8 items
+
+Rule violation counts:
+  P001 (CASM Response Process Failure): 17 █████████████████
+  P002 (Double-Barreled Question): 14 ██████████████
+  P003 (Undefined/Ambiguous Terms): 18 ██████████████████
+  P004 (Recall Period Calibration): 0 
+  P005 (Social Desirability Bias Risk): 33 ██████████████████████████████
+  P006 (Acquiescence Bias Risk): 1 █
+  P007 (Satisficing Risk): 32 ██████████████████████████████
+  P008 (Scale Anchor Calibration): 1 █
+  P009 (Response Option Order Effects): 0 
+  P010 (Context/Carry-Over Effects): 1 █
+  P011 (Middle Category and DK Option): 1 █
+  P012 (Exhaustive/Mutually Exclusive Options): 0 
+  P013 (Scale Direction Consistency): 0 
+  P014 (Open vs. Closed Question Trade-offs): 1 █
+  P015 (Negative/Double-Negative Wording): 5 █████
+  P016 (Leading and Loaded Wording Risk): 34 ██████████████████████████████
+  P017 (Recall-Enabling Strategies): 0 
+  P019 (Response Task Specification): 0 
+  P020 (Survey Length and Response Fatigue): 1 █
+  P021 (Aural vs. Visual Mode Differences): 12 ████████████
+  P022 (Visual Layout Effects): 0 
+  P024 (Funnel Principle): 1 █
+
+SECTION 2 — VALIDITY SCORE BREAKDOWN (P025)
+----------------------------------------
+Composite Validity Score : 0.440 / 1.000
+Classification           : NEEDS REVISION
+
+Interpretation:
+  The instrument has moderate methodological problems that may affect data quality. Revision of flagged items and instrument-level issues is recommended before deployment.
+
+Score components (higher = more problems detected):
+  Component 1 (40% weight) — High-severity item ratio
+    Items with any violation above severity 0.50.
+    Ensures minor flags don't inflate the score.
+
+  Component 2 (35% weight) — Mean composite severity
+    Average severity across all items (clean items = 0.0).
+    Reflects overall burden of problems per item.
+
+  Component 3 (25% weight) — Instrument finding severity
+    Weighted mean of instrument-level finding severities.
+    Weighted by finding count — more findings compound.
+
+Classification thresholds:
+  VALID          : score < 0.40
+  NEEDS REVISION : 0.40 <= score < 0.70
+  INVALID        : score >= 0.70
+
+IMPORTANT: This score is a heuristic risk index, not a
+validated psychometric measure. Severity weights are
+principled but not empirically calibrated. Interpret
+alongside the full diagnostic report.
+
+SECTION 3 — INSTRUMENT-LEVEL FINDINGS
+----------------------------------------
+Finding 1: P006 — Acquiescence Bias Risk
+  Severity : 0.9
+  Affected : All 75 items
+  Evidence : Acquiescence bias risk detected. 75/75 items (100%) are positively worded with no main-clause negation. No reverse-scored items found. Yea-saying cannot be detected or corrected in the data. Recommend...
+
+Finding 2: P020 — Survey Length and Response Fatigue
+  Severity : 0.85
+  Affected : All 18 items
+  Evidence : Response fatigue risk detected (75 items, ~8.3 min estimated). Problem(s): high item count (75 items, threshold: 75) — Dillman (2014) documents significant response quality degradation at this length ...
+
+Finding 3: P023 — Behavior Coding Signal
+  Severity : 0.8
+  Affected : All 75 items
+  Evidence : Behavior coding proxy signals detected. Finding 1: 30 item(s) flagged with 3+ simultaneous rule violations (behavior coding proxy: high problem frequency). Top items: item 54 (6 rules: ['P001', 'P002'...
+
+Finding 4: P024 — Funnel Principle
+  Severity : 0.65
+  Affected : All 17 items
+  Evidence : Funnel principle violation(s) detected — 10 specific item(s) precede general item(s) within construct block(s), causing specific-to-general priming. Violation pair(s): item 1 (specific) before item 2 ...
+
+Finding 5: P010 — Context/Carry-Over Effects
+  Severity : 0.6
+  Affected : All 34 items
+  Evidence : Carry-over and context effect risk detected from item sequencing. Signal(s): block transition contamination risk at 4 construct block boundaries — respondents carry prior cognitive frame into new cons...
+
+Finding 6: P008 — Scale Anchor Calibration
+  Severity : 0.35
+  Affected : All 75 items
+  Evidence : Scale anchor calibration problem(s) detected (5-point scale, labels: 'Always', 'Often', 'Sometimes', 'Rarely', 'Never'). Problem(s): vague quantifier label(s) with no numerical referent: 'often', 'som...
+
+Finding 7: P011 — Middle Category and DK Option
+  Severity : 0.35
+  Affected : All 75 items
+  Evidence : Scale design problem(s) detected. Problem(s): no Don't Know or Not Applicable option detected in scale (5-point scale: 'Always', 'Often', 'Sometimes', 'Rarely', 'Never'). Respondents who lack an opini...
+
+
+SECTION 4 — HIGH PRIORITY ITEMS (require immediate attention)
+----------------------------------------
+NOTE: Findings indicate RISK signals, not confirmed bias.
+      Verify all flagged items through expert review.
+
+Item  5 | composite=0.65 | max=0.65 | rules fired: P016
+  Text: I carry out a policy or course of action, mandated by the region or the Department of Educ...
+  [P016] sev=0.65 Leading and Loaded Wording Risk: presupposition marker(s) detected — item presents embedded claim as established ...
+
+Item 11 | composite=0.51 | max=0.40 | rules fired: P003, P005, P016
+  Text: I have the authority to instruct disciplinary action to subordinates who do not obey me.
+  [P003] sev=0.30 Undefined/Ambiguous Terms: undefined scope role term(s) detected: 'subordinates'...
+  [P005] sev=0.40 Social Desirability Bias Risk: competence/authority presupposition detected: 'i have the authority to'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: presupposition marker(s) detected — item presents embedded claim as established ...
+
+Item 13 | composite=0.76 | max=0.65 | rules fired: P005, P007, P016
+  Text: I have the power to command an order, which is underpinned by rules and even laws to exert...
+  [P005] sev=0.40 Social Desirability Bias Risk: competence/authority presupposition detected: 'i have the power to'...
+  [P007] sev=0.30 Satisficing Risk: elevated word count detected: '21'...
+  [P016] sev=0.65 Leading and Loaded Wording Risk: presupposition marker(s) detected — item presents embedded claim as established ...
+
+Item 14 | composite=0.65 | max=0.65 | rules fired: P016
+  Text: I ensure the implementation of policies as established by the Department of Education.
+  [P016] sev=0.65 Leading and Loaded Wording Risk: presupposition marker(s) detected — item presents embedded claim as established ...
+
+Item 17 | composite=1.00 | max=0.85 | rules fired: P001, P002, P003, P007, P021
+  Text: I understand that rewarding gives gratification to teaching and non-teaching personnel and...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'total developm...
+  [P002] sev=0.85 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): evaluative pair joined by c...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: undefined scope role term(s) detected: 'personnel'...
+  [P007] sev=0.30 Satisficing Risk: high word count detected: '31'...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (31 words) exceeds au...
+
+Item 19 | composite=0.50 | max=0.40 | rules fired: P001, P005, P016
+  Text: I affirm that giving praise is a strong motivator and can be considered as an intangible r...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 3 (Judgment): unmeasurable judgment target(s) detected: 'strong motivator'...
+  [P005] sev=0.40 Social Desirability Bias Risk: self-aggrandizing stem verb(s) detected: 'i affirm'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: positive emotionally valenced term(s) detected — primes respondent evaluation be...
+
+Item 21 | composite=0.43 | max=0.30 | rules fired: P001, P003, P007, P021
+  Text: I understand that if the reward available can only be given to a subset of teaching and no...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'healthy compet...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: undefined scope role term(s) detected: 'personnel'...
+  [P007] sev=0.30 Satisficing Risk: high word count detected: '31'...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (31 words) exceeds au...
+
+Item 22 | composite=0.70 | max=0.60 | rules fired: P002, P007, P016
+  Text: I am able to give special benefits and rewards to people because I find it advantageous to...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): two subject-verb phrases de...
+  [P007] sev=0.30 Satisficing Risk: elevated word count detected: '22'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: presupposition marker(s) detected — item presents embedded claim as established ...
+
+Item 23 | composite=0.80 | max=0.60 | rules fired: P001, P005, P007, P016, P021
+  Text: I attest that if a reward has been promised to the entire schools division if they hit an ...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'strong bond'...
+  [P005] sev=0.40 Social Desirability Bias Risk: self-aggrandizing stem verb(s) detected: 'i attest'...
+  [P007] sev=0.60 Satisficing Risk: high word count detected: '37' | information integration demand detected: 'if......
+  [P016] sev=0.40 Leading and Loaded Wording Risk: positive emotionally valenced term(s) detected — primes respondent evaluation be...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (37 words) exceeds au...
+
+Item 26 | composite=0.49 | max=0.40 | rules fired: P003, P005, P007
+  Text: I affirm that the anticipation of a reward can encourage teaching and non-teaching personn...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: undefined scope role term(s) detected: 'personnel'...
+  [P005] sev=0.40 Social Desirability Bias Risk: self-aggrandizing stem verb(s) detected: 'i affirm'...
+  [P007] sev=0.30 Satisficing Risk: elevated word count detected: '20'...
+
+Item 28 | composite=0.52 | max=0.40 | rules fired: P005, P007, P015, P021
+  Text: I assert that the use of reward can get a subordinate to follow an instruction, with power...
+  [P005] sev=0.40 Social Desirability Bias Risk: self-aggrandizing stem verb(s) detected: 'i assert'...
+  [P007] sev=0.30 Satisficing Risk: high word count detected: '28'...
+  [P015] sev=0.20 Negative/Double-Negative Wording: negated prefix term(s) detected — subtle polarity inversion adds parsing burden:...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (28 words) exceeds au...
+
+Item 29 | composite=0.74 | max=0.60 | rules fired: P001, P002, P005, P007
+  Text: I attest that providing positive reinforcement and incentivizing people can foster creativ...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'healthy compet...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): two distinct action verbs j...
+  [P005] sev=0.40 Social Desirability Bias Risk: self-aggrandizing stem verb(s) detected: 'i attest'...
+  [P007] sev=0.30 Satisficing Risk: elevated word count detected: '20'...
+
+Item 30 | composite=0.61 | max=0.50 | rules fired: P001, P003, P016
+  Text: I understand that giving reward plays an important role towards an effective leadership.
+  [P001] sev=0.50 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'effective lead...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: evaluative term(s) without defined standard detected: 'effective'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: positive emotionally valenced term(s) detected — primes respondent evaluation be...
+
+Item 33 | composite=0.69 | max=0.60 | rules fired: P002, P007, P021
+  Text: I use suspension or termination to ensure that the rules and policies of the schools divis...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): two distinct action verbs j...
+  [P007] sev=0.30 Satisficing Risk: high word count detected: '26'...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (26 words) exceeds au...
+
+Item 35 | composite=0.51 | max=0.40 | rules fired: P005, P007, P016
+  Text: I have the ability to control the behavior of my subordinates by ensuring that they adhere...
+  [P005] sev=0.40 Social Desirability Bias Risk: competence/authority presupposition detected: 'i have the ability to'...
+  [P007] sev=0.30 Satisficing Risk: elevated word count detected: '22'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: presupposition marker(s) detected — item presents embedded claim as established ...
+
+Item 36 | composite=0.55 | max=0.40 | rules fired: P005, P007, P016, P021
+  Text: I have the ability to force a subordinate to follow an order by threatening the employee w...
+  [P005] sev=0.40 Social Desirability Bias Risk: competence/authority presupposition detected: 'i have the ability to'...
+  [P007] sev=0.30 Satisficing Risk: high word count detected: '27'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: presupposition marker(s) detected — item presents embedded claim as established ...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (27 words) exceeds au...
+
+Item 37 | composite=0.38 | max=0.30 | rules fired: P003, P007, P015
+  Text: If the schools division is undergoing any changes, then coercion could deter any resistanc...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: undefined scope role term(s) detected: 'personnel'...
+  [P007] sev=0.30 Satisficing Risk: information integration demand detected: 'if...then'...
+  [P015] sev=0.20 Negative/Double-Negative Wording: negated prefix term(s) detected — subtle polarity inversion adds parsing burden:...
+
+Item 38 | composite=0.51 | max=0.40 | rules fired: P003, P005, P016
+  Text: I affirm that coercion can ensure that teaching and non-teaching personnel will follow rul...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: undefined scope role term(s) detected: 'personnel'...
+  [P005] sev=0.40 Social Desirability Bias Risk: self-aggrandizing stem verb(s) detected: 'i affirm'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: institutional authority reference(s) detected — invoking institutional mandate c...
+
+Item 40 | composite=0.95 | max=0.85 | rules fired: P002, P003, P014
+  Text: I develop discipline among teaching and nonteaching personnel, which I believe improves ef...
+  [P002] sev=0.85 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): two subject-verb phrases de...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: undefined scope role term(s) detected: 'personnel'...
+  [P014] sev=0.40 Open vs. Closed Question Trade-offs: Question format mismatch detected. Signal(s): attitude/belief stem (['i believe'...
+
+Item 41 | composite=0.74 | max=0.65 | rules fired: P005, P015, P016
+  Text: I attest that I have the authority to prevent or eliminate harassment and discrimination i...
+  [P005] sev=0.65 Social Desirability Bias Risk: self-aggrandizing stem verb(s) detected: 'i attest' | competence/authority presu...
+  [P015] sev=0.20 Negative/Double-Negative Wording: negated prefix term(s) detected — subtle polarity inversion adds parsing burden:...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: presupposition marker(s) detected — item presents embedded claim as established ...
+
+Item 42 | composite=0.58 | max=0.50 | rules fired: P003, P007, P015
+  Text: If teaching and non-teaching personnel defy Department policies or standards, I immediatel...
+  [P003] sev=0.50 Undefined/Ambiguous Terms: undefined scope role term(s) detected: 'personnel' | evaluative term(s) without ...
+  [P007] sev=0.30 Satisficing Risk: high word count detected: '25'...
+  [P015] sev=0.20 Negative/Double-Negative Wording: negated prefix term(s) detected — subtle polarity inversion adds parsing burden:...
+
+Item 43 | composite=0.49 | max=0.40 | rules fired: P003, P007, P016
+  Text: At times, I assert that punishment, or even the threat of punishment is necessary to estab...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: evaluative term(s) without defined standard detected: 'successful'...
+  [P007] sev=0.30 Satisficing Risk: elevated word count detected: '21'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: positive emotionally valenced term(s) detected — primes respondent evaluation be...
+
+Item 48 | composite=0.87 | max=0.65 | rules fired: P001, P002, P007, P016, P021
+  Text: I ensure to give my people the satisfaction they need at work by creating an inspiring vis...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'positive relat...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): two distinct action verbs j...
+  [P007] sev=0.30 Satisficing Risk: high word count detected: '28'...
+  [P016] sev=0.65 Leading and Loaded Wording Risk: positive emotionally valenced term(s) detected — primes respondent evaluation be...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (28 words) exceeds au...
+
+Item 54 | composite=0.89 | max=0.60 | rules fired: P001, P002, P005, P007, P016, P021
+  Text: I ascertain a deep appreciation of empowerment for it involves critical decision-making an...
+  [P001] sev=0.50 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'desired action...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): two distinct action verbs j...
+  [P005] sev=0.40 Social Desirability Bias Risk: self-aggrandizing stem verb(s) detected: 'i ascertain'...
+  [P007] sev=0.30 Satisficing Risk: high word count detected: '32'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: positive emotionally valenced term(s) detected — primes respondent evaluation be...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (32 words) exceeds au...
+
+Item 55 | composite=0.43 | max=0.30 | rules fired: P001, P003, P007, P021
+  Text: I let them discuss their thoughts and how their contributions could impact the strategic i...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'desired goal',...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: undefined scope role term(s) detected: 'members'...
+  [P007] sev=0.30 Satisficing Risk: high word count detected: '36'...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (36 words) exceeds au...
+
+Item 57 | composite=0.75 | max=0.60 | rules fired: P002, P005, P007, P021
+  Text: I practice what I preach to build trust with my people as well as recognize the hard work ...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): multi-proposition connector...
+  [P005] sev=0.40 Social Desirability Bias Risk: virtuous self-attribution detected: 'i practice what i preach'...
+  [P007] sev=0.30 Satisficing Risk: high word count detected: '32'...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (32 words) exceeds au...
+
+Item 62 | composite=0.74 | max=0.65 | rules fired: P002, P005
+  Text: I assert that I am well trained in handling problems using my intellect and also a good pe...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): multi-proposition connector...
+  [P005] sev=0.65 Social Desirability Bias Risk: self-aggrandizing stem verb(s) detected: 'i assert' | virtuous self-attribution ...
+
+Item 63 | composite=0.55 | max=0.40 | rules fired: P005, P007, P016, P021
+  Text: I have the ability to communicate, persuade, negotiate, influence, delegate, and interact ...
+  [P005] sev=0.40 Social Desirability Bias Risk: competence/authority presupposition detected: 'i have the ability to'...
+  [P007] sev=0.30 Satisficing Risk: high word count detected: '27'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: presupposition marker(s) detected — item presents embedded claim as established ...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (27 words) exceeds au...
+
+Item 65 | composite=0.54 | max=0.40 | rules fired: P001, P003, P005, P016
+  Text: I guarantee to have complete knowledge of ethical issues, which members of my organization...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 1 (Comprehension): abstract undefined concept(s) detected: 'complete knowl...
+  [P003] sev=0.30 Undefined/Ambiguous Terms: undefined scope role term(s) detected: 'members'...
+  [P005] sev=0.40 Social Desirability Bias Risk: self-aggrandizing stem verb(s) detected: 'i guarantee'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: presupposition marker(s) detected — item presents embedded claim as established ...
+
+Item 66 | composite=0.50 | max=0.40 | rules fired: P001, P005, P016
+  Text: I am a strong motivator and believe that every human interaction involves a complex proces...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 3 (Judgment): unmeasurable judgment target(s) detected: 'strong motivator'...
+  [P005] sev=0.40 Social Desirability Bias Risk: virtuous self-attribution detected: 'i am a strong'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: positive emotionally valenced term(s) detected — primes respondent evaluation be...
+
+Item 71 | composite=0.54 | max=0.40 | rules fired: P001, P005, P007, P016
+  Text: I have the superior knowledge, expertise, and proven ability to perform my duties and resp...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 3 (Judgment): unmeasurable judgment target(s) detected: 'superior knowledg...
+  [P005] sev=0.40 Social Desirability Bias Risk: competence/authority presupposition detected: 'i have the superior'...
+  [P007] sev=0.30 Satisficing Risk: elevated word count detected: '20'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: positive emotionally valenced term(s) detected — primes respondent evaluation be...
+
+Item 73 | composite=0.76 | max=0.60 | rules fired: P001, P002, P005, P016
+  Text: I have an elevated level of knowledge or specific skill set that others in the organizatio...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 3 (Judgment): unmeasurable judgment target(s) detected: 'elevated level'...
+  [P002] sev=0.60 Double-Barreled Question: Possible double-barrel — verify manually. Signal(s): evaluative pair joined by c...
+  [P005] sev=0.40 Social Desirability Bias Risk: competence/authority presupposition detected: 'i have an elevated'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: positive emotionally valenced term(s) detected — primes respondent evaluation be...
+
+Item 75 | composite=0.84 | max=0.65 | rules fired: P001, P005, P007, P016, P021
+  Text: I know that I possess superior skills, knowledge, and abilities that enables me to perform...
+  [P001] sev=0.25 CASM Response Process Failure: Stage 3 (Judgment): unmeasurable judgment target(s) detected: 'better understand...
+  [P005] sev=0.65 Social Desirability Bias Risk: virtuous self-attribution detected: 'i know that i possess' | competence/authori...
+  [P007] sev=0.30 Satisficing Risk: high word count detected: '28'...
+  [P016] sev=0.40 Leading and Loaded Wording Risk: positive emotionally valenced term(s) detected — primes respondent evaluation be...
+  [P021] sev=0.30 Aural vs. Visual Mode Differences: Aural administration risk detected. Signal(s): item length (28 words) exceeds au...
+
+
+SECTION 5 — FULL ITEM DIAGNOSTICS
+----------------------------------------
+Item  1 | LOW    | composite=0.20 | violations=1
+  Text: I am in the position to punish uncooperative and difficult people.
+  [P015] Negative/Double-Negative Wording (sev=0.20)
+
+Item  2 | MEDIUM | composite=0.40 | violations=1
+  Text: I establish procedures for effective and efficient operations in all departments...
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item  3 | MEDIUM | composite=0.45 | violations=2
+  Text: I make sure that my subordinates will comply with what is needed because they be...
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item  4 | MEDIUM | composite=0.46 | violations=2
+  Text: I have the authority to instruct and set direction for the entire schools divisi...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item  5 | HIGH   | composite=0.65 | violations=1
+  Text: I carry out a policy or course of action, mandated by the region or the Departme...
+  [P016] Leading and Loaded Wording Risk (sev=0.65)
+
+Item  6 | MEDIUM | composite=0.40 | violations=1
+  Text: I maintain complete and total control of the school division.
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item  7 | MEDIUM | composite=0.40 | violations=1
+  Text: I ensure quality and accessible education in schools and learning centers as one...
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item  8 | MEDIUM | composite=0.40 | violations=1
+  Text: I maintain formal and distant relationships with my people in the schools divisi...
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item  9 | CLEAN | I know that my people will obey my command and orders becaus...
+Item 10 | LOW    | composite=0.30 | violations=1
+  Text: I supervise the overall operation of the schools division.
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+
+Item 11 | HIGH   | composite=0.51 | violations=3
+  Text: I have the authority to instruct disciplinary action to subordinates who do not ...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 12 | CLEAN | I use my position and authority to control the people within...
+Item 13 | HIGH   | composite=0.76 | violations=3
+  Text: I have the power to command an order, which is underpinned by rules and even law...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.65)
+
+Item 14 | HIGH   | composite=0.65 | violations=1
+  Text: I ensure the implementation of policies as established by the Department of Educ...
+  [P016] Leading and Loaded Wording Risk (sev=0.65)
+
+Item 15 | CLEAN | I give orders to my people since I am the head of the school...
+Item 16 | CLEAN | I can use reward as a negotiating strategy in directing and ...
+Item 17 | HIGH   | composite=1.00 | violations=5
+  Text: I understand that rewarding gives gratification to teaching and non-teaching per...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P002] Double-Barreled Question (sev=0.85)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 18 | MEDIUM | composite=0.46 | violations=2
+  Text: I have the ability to confer or withhold rewards such as money, privileges, prom...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 19 | HIGH   | composite=0.50 | violations=3
+  Text: I affirm that giving praise is a strong motivator and can be considered as an in...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 20 | MEDIUM | composite=0.34 | violations=2
+  Text: Giving reward may bring a better change in the behavior of teaching and non-teac...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+
+Item 21 | HIGH   | composite=0.43 | violations=4
+  Text: I understand that if the reward available can only be given to a subset of teach...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 22 | HIGH   | composite=0.70 | violations=3
+  Text: I am able to give special benefits and rewards to people because I find it advan...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 23 | HIGH   | composite=0.80 | violations=5
+  Text: I attest that if a reward has been promised to the entire schools division if th...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.60)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 24 | MEDIUM | composite=0.66 | violations=2
+  Text: I assert that the use of reward can promote trust and loyalty to the schools div...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 25 | CLEAN | I can motivate people to respond through promotions and awar...
+Item 26 | HIGH   | composite=0.49 | violations=3
+  Text: I affirm that the anticipation of a reward can encourage teaching and non-teachi...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 27 | MEDIUM | composite=0.34 | violations=2
+  Text: I understand that I can motivate teaching and nonteaching personnel by providing...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 28 | HIGH   | composite=0.52 | violations=4
+  Text: I assert that the use of reward can get a subordinate to follow an instruction, ...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P015] Negative/Double-Negative Wording (sev=0.20)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 29 | HIGH   | composite=0.74 | violations=4
+  Text: I attest that providing positive reinforcement and incentivizing people can fost...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P002] Double-Barreled Question (sev=0.60)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 30 | HIGH   | composite=0.61 | violations=3
+  Text: I understand that giving reward plays an important role towards an effective lea...
+  [P001] CASM Response Process Failure (sev=0.50)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 31 | MEDIUM | composite=0.40 | violations=1
+  Text: I can reprimand my subordinates because I am capable to do it.
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 32 | MEDIUM | composite=0.46 | violations=2
+  Text: I assert that I have the ability and authority to punish if expectations are not...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 33 | HIGH   | composite=0.69 | violations=3
+  Text: I use suspension or termination to ensure that the rules and policies of the sch...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P007] Satisficing Risk (sev=0.30)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 34 | CLEAN | I can make things difficult to some people specifically if h...
+Item 35 | HIGH   | composite=0.51 | violations=3
+  Text: I have the ability to control the behavior of my subordinates by ensuring that t...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 36 | HIGH   | composite=0.55 | violations=4
+  Text: I have the ability to force a subordinate to follow an order by threatening the ...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 37 | HIGH   | composite=0.38 | violations=3
+  Text: If the schools division is undergoing any changes, then coercion could deter any...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+  [P015] Negative/Double-Negative Wording (sev=0.20)
+
+Item 38 | HIGH   | composite=0.51 | violations=3
+  Text: I affirm that coercion can ensure that teaching and non-teaching personnel will ...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 39 | LOW    | composite=0.30 | violations=1
+  Text: I understand that coerciveness aids in the demand of compliance to the organizat...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+
+Item 40 | HIGH   | composite=0.95 | violations=3
+  Text: I develop discipline among teaching and nonteaching personnel, which I believe i...
+  [P002] Double-Barreled Question (sev=0.85)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P014] Open vs. Closed Question Trade-offs (sev=0.40)
+
+Item 41 | HIGH   | composite=0.74 | violations=3
+  Text: I attest that I have the authority to prevent or eliminate harassment and discri...
+  [P005] Social Desirability Bias Risk (sev=0.65)
+  [P015] Negative/Double-Negative Wording (sev=0.20)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 42 | HIGH   | composite=0.58 | violations=3
+  Text: If teaching and non-teaching personnel defy Department policies or standards, I ...
+  [P003] Undefined/Ambiguous Terms (sev=0.50)
+  [P007] Satisficing Risk (sev=0.30)
+  [P015] Negative/Double-Negative Wording (sev=0.20)
+
+Item 43 | HIGH   | composite=0.49 | violations=3
+  Text: At times, I assert that punishment, or even the threat of punishment is necessar...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 44 | MEDIUM | composite=0.40 | violations=1
+  Text: I affirm that coercion increases an antagonistic climate and enforced compliance...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 45 | MEDIUM | composite=0.45 | violations=2
+  Text: I know that coercion is effective to control what is happening inside the school...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 46 | MEDIUM | composite=0.65 | violations=2
+  Text: I am using my charisma to attract others, build loyalty with them and use it for...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 47 | CLEAN | I desire for a feeling of oneness and acceptance in a valued...
+Item 48 | HIGH   | composite=0.87 | violations=5
+  Text: I ensure to give my people the satisfaction they need at work by creating an ins...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P002] Double-Barreled Question (sev=0.60)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.65)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 49 | CLEAN | I appreciate extra effort to applaud accomplishments rather ...
+Item 50 | LOW    | composite=0.30 | violations=1
+  Text: I extend beyond clocking in and clocking out each day, even beyond work-related ...
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 51 | MEDIUM | composite=0.40 | violations=1
+  Text: I keep and commit with my promises and do unsolicited favors for my people.
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 52 | MEDIUM | composite=0.34 | violations=2
+  Text: I engage and affiliate my people in activities that are challenging, interesting...
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 53 | MEDIUM | composite=0.65 | violations=2
+  Text: I use sincere forms of ingratiation as well as communicate with them in order to...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 54 | HIGH   | composite=0.89 | violations=6
+  Text: I ascertain a deep appreciation of empowerment for it involves critical decision...
+  [P001] CASM Response Process Failure (sev=0.50)
+  [P002] Double-Barreled Question (sev=0.60)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 55 | HIGH   | composite=0.43 | violations=4
+  Text: I let them discuss their thoughts and how their contributions could impact the s...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P007] Satisficing Risk (sev=0.30)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 56 | LOW    | composite=0.25 | violations=1
+  Text: I utilize my personal attributes, personalities, and appearance to articulate or...
+  [P001] CASM Response Process Failure (sev=0.25)
+
+Item 57 | HIGH   | composite=0.75 | violations=4
+  Text: I practice what I preach to build trust with my people as well as recognize the ...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 58 | MEDIUM | composite=0.40 | violations=1
+  Text: I inspire and motivate my people to be fully involved in achieving goals and obj...
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 59 | MEDIUM | composite=0.45 | violations=2
+  Text: I treat my people with respect no matter what their rank is and always place a l...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 60 | MEDIUM | composite=0.44 | violations=2
+  Text: I ascertain that the power of imitation and modeling is an important factor to i...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 61 | MEDIUM | composite=0.45 | violations=2
+  Text: I make certain to create my own ethical codes and ethical guidelines for these g...
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 62 | HIGH   | composite=0.74 | violations=2
+  Text: I assert that I am well trained in handling problems using my intellect and also...
+  [P002] Double-Barreled Question (sev=0.60)
+  [P005] Social Desirability Bias Risk (sev=0.65)
+
+Item 63 | HIGH   | composite=0.55 | violations=4
+  Text: I have the ability to communicate, persuade, negotiate, influence, delegate, and...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+Item 64 | MEDIUM | composite=0.60 | violations=1
+  Text: I make bargains with people using my high-level of skills and knowledge to achie...
+  [P002] Double-Barreled Question (sev=0.60)
+
+Item 65 | HIGH   | composite=0.54 | violations=4
+  Text: I guarantee to have complete knowledge of ethical issues, which members of my or...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P003] Undefined/Ambiguous Terms (sev=0.30)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 66 | HIGH   | composite=0.50 | violations=3
+  Text: I am a strong motivator and believe that every human interaction involves a comp...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 67 | MEDIUM | composite=0.40 | violations=1
+  Text: I ascertain that rank means responsibility but not authority, and superintendent...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 68 | MEDIUM | composite=0.46 | violations=2
+  Text: I have the ability to stand out in certain areas that lead to my advancement wit...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 69 | MEDIUM | composite=0.40 | violations=1
+  Text: I respect organizational needs and tailor my knowledge to suit the requirements.
+  [P005] Social Desirability Bias Risk (sev=0.40)
+
+Item 70 | LOW    | composite=0.30 | violations=1
+  Text: I intend to continue learning and improving through continual formal study, trai...
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 71 | HIGH   | composite=0.54 | violations=4
+  Text: I have the superior knowledge, expertise, and proven ability to perform my dutie...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 72 | MEDIUM | composite=0.45 | violations=2
+  Text: I can understand and effectively communicate educational content to my people in...
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 73 | HIGH   | composite=0.76 | violations=4
+  Text: I have an elevated level of knowledge or specific skill set that others in the o...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P002] Double-Barreled Question (sev=0.60)
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+
+Item 74 | MEDIUM | composite=0.45 | violations=2
+  Text: I attest that the more I learn a lot of things, the better I can hold my influen...
+  [P005] Social Desirability Bias Risk (sev=0.40)
+  [P007] Satisficing Risk (sev=0.30)
+
+Item 75 | HIGH   | composite=0.84 | violations=5
+  Text: I know that I possess superior skills, knowledge, and abilities that enables me ...
+  [P001] CASM Response Process Failure (sev=0.25)
+  [P005] Social Desirability Bias Risk (sev=0.65)
+  [P007] Satisficing Risk (sev=0.30)
+  [P016] Leading and Loaded Wording Risk (sev=0.40)
+  [P021] Aural vs. Visual Mode Differences (sev=0.30)
+
+
+SECTION 6 — RECOMMENDATIONS
+----------------------------------------
+INSTRUMENT-LEVEL:
+1. ADD REVERSE-SCORED ITEMS: All items are positively worded. Add 15-20 reverse-scored items (20-25% of instrument) to detect and correct acquiescence bias risk.
+2. REDUCE INSTRUMENT LENGTH: At 75 items the instrument exceeds recommended length. Consider reducing to 50-60 items after pilot testing.
+3. IMPROVE SCALE ANCHORS: Replace vague frequency labels (Often, Sometimes, Rarely) with numerically anchored alternatives or switch to an agreement scale (Strongly Agree to Strongly Disagree) which better matches self-report attitude items.
+4. REORDER ITEMS: Funnel principle violations detected. Within each construct block, place general construct items before specific behavioral items.
+
+ITEM-LEVEL (top 5 priority rewrites):
+Item 17 (composite risk: 1.00):
+  Current : I understand that rewarding gives gratification to teaching and non-teaching personnel and
+  Risk signals : P001, P002, P003, P007, P021
+  Primary action: Address CASM Response Process Failure
+
+Item 40 (composite risk: 0.95):
+  Current : I develop discipline among teaching and nonteaching personnel, which I believe improves ef
+  Risk signals : P002, P003, P014
+  Primary action: Address Double-Barreled Question
+
+Item 54 (composite risk: 0.89):
+  Current : I ascertain a deep appreciation of empowerment for it involves critical decision-making an
+  Risk signals : P001, P002, P005, P007, P016, P021
+  Primary action: Address CASM Response Process Failure
+
+Item 48 (composite risk: 0.87):
+  Current : I ensure to give my people the satisfaction they need at work by creating an inspiring vis
+  Risk signals : P001, P002, P007, P016, P021
+  Primary action: Address CASM Response Process Failure
+
+Item 75 (composite risk: 0.84):
+  Current : I know that I possess superior skills, knowledge, and abilities that enables me to perform
+  Risk signals : P001, P005, P007, P016, P021
+  Primary action: Address CASM Response Process Failure
+
+PROCESS RECOMMENDATIONS:
+- Conduct cognitive interviews with 5-10 representative
+  respondents before full deployment
+- Pilot test with a small sample to assess item
+  discrimination and scale reliability (Cronbach alpha)
+- Consider splitting into subscales administered separately
+  to reduce fatigue risk
+- Review all HIGH priority items with a survey methodology
+  expert before finalizing
+- Treat all findings as risk signals requiring expert
+  verification — not confirmed validity failures
+
+======================================================================
+  END OF REPORT — Surveyor AI
+  Final verdict: NEEDS REVISION (score: 0.440)
+
+  LIMITATIONS:
+  - Findings are heuristic risk signals, not confirmed bias
+  - Severity weights are principled but not empirically
+    calibrated against human expert ratings
+  - Construct-aware evaluation not yet implemented
+  - Score is not comparable across different rule sets
+  - Not a substitute for expert review or cognitive testing
+======================================================================

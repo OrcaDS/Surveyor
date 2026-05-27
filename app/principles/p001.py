@@ -43,6 +43,7 @@ SEVERITY LOGIC:
 
 import re
 from app.principles.base_rule import BaseRule, Violation
+from app.principles.signals import Signal, SignalType
 
 
 class P001(BaseRule):
@@ -95,7 +96,7 @@ class P001(BaseRule):
         """
         text = self._get_text(item).lower()
 
-        failures = []
+        signals = []
 
         # --- Stage 1: Comprehension failure ---
         abstract_hits = [
@@ -103,46 +104,67 @@ class P001(BaseRule):
             if term in text
         ]
         if abstract_hits:
-            failures.append(
-                f"Stage 1 (Comprehension): abstract undefined concept(s) detected: "
-                f"{', '.join(repr(t) for t in abstract_hits)}"
+            signals.append(
+                Signal(
+                    type=SignalType.ABSTRACT_CONCEPT,
+                    description="Stage 1 (Comprehension): abstract undefined concept(s) detected",
+                    terms=abstract_hits,
+                    confidence=0.80,
+                )
             )
 
         # --- Stage 2: Retrieval failure ---
         # Tokenize to avoid partial matches (e.g. "often" inside "softening")
         words = re.findall(r"\b\w+\b", text)
+
         freq_hits = [
             term for term in self.VAGUE_FREQUENCY_TERMS
             if term in words
         ]
         if freq_hits:
-            failures.append(
-                f"Stage 2 (Retrieval): vague frequency term(s) in item text: "
-                f"{', '.join(repr(t) for t in freq_hits)}"
+            signals.append(
+                Signal(
+                    type=SignalType.VAGUE_FREQUENCY_ADVERB,
+                    description="Stage 2 (Retrieval): vague frequency term(s) in item text",
+                    terms=freq_hits,
+                    confidence=0.85,
+                )
             )
 
         # --- Stage 3: Judgment failure ---
         # Exclude terms already reported in Stage 1 to avoid redundant evidence
         already_reported = set(abstract_hits)
+
         judgment_hits = [
             term for term in self.UNMEASURABLE_JUDGMENT_TERMS
             if term in text and term not in already_reported
         ]
         if judgment_hits:
-            failures.append(
-                f"Stage 3 (Judgment): unmeasurable judgment target(s) detected: "
-                f"{', '.join(repr(t) for t in judgment_hits)}"
+            signals.append(
+                Signal(
+                    type=SignalType.UNMEASURABLE_JUDGMENT,
+                    description="Stage 3 (Judgment): unmeasurable judgment target(s) detected",
+                    terms=judgment_hits,
+                    confidence=0.80,
+                )
             )
 
-        if not failures:
+        if not signals:
             return None
 
         # Severity scales with number of stage failures, capped at 0.75
-        severity = min(len(failures) * 0.25, 0.75)
-        evidence = " | ".join(failures)
+        severity = min(len(signals) * 0.25, 0.75)
+
+        # Evidence derived from signals — includes terms for human readability
+        evidence = " | ".join(
+            f"{s.description}: {', '.join(repr(t) for t in s.terms)}"
+            if s.terms else s.description
+            for s in signals
+        )
 
         return Violation(
             principle=self.id,
             severity=round(severity, 2),
-            evidence=evidence
+            evidence=evidence,
+            signals=signals
         )

@@ -1,53 +1,24 @@
 """
 app/principles/p002.py
 
-PRINCIPLE: P002 — The Double-Barreled Question (One Question = One Concept)
-SOURCE: Fowler — Survey Research Methods (5th ed.), Ch. 6, p. 83–84
+PRINCIPLE: P002 — The Double-Barreled Question
+SOURCE: Fowler — Survey Research Methods (5th ed.), Ch. 6, p. 83-84
 OPERATIONALIZABILITY: High
 CONFIDENCE: High
 
-WHAT THIS RULE CHECKS:
-    A double-barreled question asks about two distinct concepts simultaneously,
-    forcing respondents who agree with one but not the other to give an
-    uninterpretable answer.
+REFACTORED: Stage 2 — now produces typed Signal objects.
 
-DETECTION STRATEGY (deterministic proxy):
-    Full conceptual independence detection requires semantic embeddings (Phase 4).
-    At this layer we use syntax as a proxy signal with three checks:
-
-    CHECK 1 — Dual verb phrases:
-        "and" / "or" joining two distinct verb phrases in the same stem.
-        e.g. "I support X and believe Y" — two separate cognitive acts.
-        This is the strongest syntactic signal for a true double-barrel.
-
-    CHECK 2 — Evaluative noun pairs:
-        "and" / "or" joining two known evaluative/organizational nouns
-        that are independently ratable in leadership/HR contexts.
-        e.g. "rewards and recognition", "vision and values"
-
-    CHECK 3 — Multiple "while" / "as well as" connectors:
-        Subordinating connectors that introduce a second proposition
-        within the same item stem.
-        e.g. "X improves efficiency while contributing to development"
-
-SUPPRESSION (known false positives):
-    Compound nouns that look like double-barrels but are semantically fused
-    are whitelisted and suppressed from flagging.
-    e.g. "teaching and non-teaching", "rules and regulations",
-         "policies and procedures", "parks and recreation"
-
-SEVERITY:
-    Single signal detected  → 0.60
-    Multiple signals        → 0.85
-    (P002 is high-confidence so base severity is higher than P001)
-
-EVIDENCE MESSAGE:
-    Always qualified as "possible double-barrel — verify manually"
-    because deterministic syntax cannot measure conceptual independence.
+Detection strategy unchanged. Evidence strings are now generated
+from Signal objects rather than hardcoded strings, enabling:
+    - Signal-type-specific weighting in P025
+    - Cross-principle interaction detection
+    - Dashboard filtering by signal category
+    - Confidence-aware scoring
 """
 
 import re
 from app.principles.base_rule import BaseRule, Violation
+from app.principles.signals import Signal, SignalType
 
 
 class P002(BaseRule):
@@ -58,10 +29,6 @@ class P002(BaseRule):
         "(double-barreled questions), forcing uninterpretable responses."
     )
 
-    # ------------------------------------------------------------------
-    # WHITELISTED COMPOUND NOUNS — suppress these from flagging
-    # These look like dual concepts but behave as single evaluative units.
-    # ------------------------------------------------------------------
     FUSED_COMPOUNDS = [
         "teaching and non-teaching",
         "non-teaching and teaching",
@@ -79,10 +46,6 @@ class P002(BaseRule):
         "law and order",
     ]
 
-    # ------------------------------------------------------------------
-    # EVALUATIVE NOUN PAIRS — independently ratable in org/leadership context
-    # If both members of a pair appear joined by "and"/"or", flag it.
-    # ------------------------------------------------------------------
     EVALUATIVE_PAIRS = [
         ("reward", "recognition"),
         ("reward", "punishment"),
@@ -98,13 +61,9 @@ class P002(BaseRule):
         ("incentive", "sanction"),
         ("leadership", "communication"),
         ("gratification", "success"),
-        ("development", "competenc"),   # partial: covers "competency/competencies"
+        ("development", "competenc"),
     ]
 
-    # ------------------------------------------------------------------
-    # MULTI-PROPOSITION CONNECTORS
-    # These introduce a second independent clause within one item.
-    # ------------------------------------------------------------------
     MULTI_PROP_CONNECTORS = [
         r"\bwhile\b",
         r"\bas well as\b",
@@ -115,19 +74,10 @@ class P002(BaseRule):
     ]
 
     def evaluate(self, item: dict) -> Violation | None:
-        """
-        Check a single item for double-barreled question signals.
-
-        Args:
-            item (dict): Parsed survey item from SurveyParser.
-
-        Returns:
-            Violation if double-barrel signals detected, else None.
-        """
         text = self._get_text(item)
         text_lower = text.lower()
 
-        # Suppress whitelisted compound nouns before any checking
+        # Suppress whitelisted compounds
         scrubbed = text_lower
         for compound in self.FUSED_COMPOUNDS:
             scrubbed = scrubbed.replace(compound, "[FUSED]")
@@ -152,44 +102,40 @@ class P002(BaseRule):
         if not signals:
             return None
 
+        # Severity from signal count
         severity = 0.60 if len(signals) == 1 else 0.85
+
+        # Generate evidence from signals — not hardcoded
+        signal_descriptions = " | ".join(s.description for s in signals)
         evidence = (
             "Possible double-barrel — verify manually. "
-            "Signal(s): " + " | ".join(signals)
+            f"Signal(s): {signal_descriptions}"
         )
 
         return Violation(
             principle=self.id,
             severity=round(severity, 2),
-            evidence=evidence
+            evidence=evidence,
+            signals=signals
         )
 
     # ------------------------------------------------------------------
-    # PRIVATE CHECKERS
+    # PRIVATE CHECKERS — now return Signal objects
     # ------------------------------------------------------------------
 
-    def _check_dual_verb_phrases(self, text: str) -> str | None:
-        """
-        Detect 'and'/'or' joining two verb phrases.
-
-        Pattern: verb + ... + and/or + verb
-        We look for two action verbs within the same clause separated by
-        a coordinating conjunction, which strongly suggests two propositions.
-
-        Common survey stem verbs in this instrument:
-        affirm, attest, assert, ensure, understand, believe, know,
-        guarantee, ascertain, utilize, maintain, develop, use, engage
-        """
-        # Match: I <verb> ... and/or ... I <verb>  (explicit dual subject)
+    def _check_dual_verb_phrases(self, text: str) -> Signal | None:
         dual_subject = re.search(
             r"\bi\s+\w+\b.{5,60}?\b(and|or)\b.{1,30}?\bi\s+\w+\b",
             text
         )
         if dual_subject:
-            return "two subject-verb phrases detected in one item"
+            return Signal(
+                type=SignalType.DUAL_VERB_PHRASE,
+                description="two subject-verb phrases detected in one item",
+                terms=[],
+                confidence=0.75,
+            )
 
-        # Match: verb phrase + and/or + verb phrase (same subject, two actions)
-        # Look for: <verb> X and <verb> Y where verbs are different action words
         dual_action = re.search(
             r"\b(affirm|attest|assert|ensure|understand|believe|know|"
             r"guarantee|ascertain|utilize|maintain|develop|engage|"
@@ -201,18 +147,18 @@ class P002(BaseRule):
             text
         )
         if dual_action:
-            return "two distinct action verbs joined by conjunction in one item"
+            return Signal(
+                type=SignalType.DUAL_VERB_PHRASE,
+                description="two distinct action verbs joined by conjunction",
+                terms=[],
+                confidence=0.70,
+            )
 
         return None
 
-    def _check_evaluative_pairs(self, text: str) -> str | None:
-        """
-        Detect known evaluative noun pairs joined by 'and' or 'or'.
-        Both members of the pair must appear in the text.
-        """
+    def _check_evaluative_pairs(self, text: str) -> Signal | None:
         for term_a, term_b in self.EVALUATIVE_PAIRS:
             if term_a in text and term_b in text:
-                # Check they are actually joined by and/or (within 10 words)
                 pattern = (
                     rf"\b{re.escape(term_a)}\b.{{0,60}}"
                     rf"\b(and|or)\b.{{0,60}}"
@@ -222,18 +168,28 @@ class P002(BaseRule):
                     rf"\b{re.escape(term_a)}\b"
                 )
                 if re.search(pattern, text):
-                    return (
-                        f"evaluative pair joined by conjunction: "
-                        f"'{term_a}' and '{term_b}'"
+                    return Signal(
+                        type=SignalType.EVALUATIVE_PAIR,
+                        description=(
+                            f"evaluative pair joined by conjunction"
+                        ),
+                        terms=[term_a, term_b],
+                        confidence=0.80,
                     )
         return None
 
-    def _check_multi_proposition(self, text: str) -> str | None:
-        """
-        Detect subordinating connectors that introduce a second proposition.
-        """
+    def _check_multi_proposition(self, text: str) -> Signal | None:
         for pattern in self.MULTI_PROP_CONNECTORS:
             if re.search(pattern, text):
                 match = re.search(pattern, text)
-                return f"multi-proposition connector detected: '{match.group().strip()}'"
+                connector = match.group().strip()
+                return Signal(
+                    type=SignalType.MULTI_PROPOSITION_CONNECTOR,
+                    description=(
+                        f"multi-proposition connector detected: "
+                        f"'{connector}'"
+                    ),
+                    terms=[connector],
+                    confidence=0.85,
+                )
         return None

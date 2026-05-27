@@ -72,6 +72,7 @@ PROXY NOTE:
 
 import re
 from app.principles.base_rule import BaseRule, Violation
+from app.principles.signals import Signal, SignalType
 
 
 class P016(BaseRule):
@@ -106,7 +107,7 @@ class P016(BaseRule):
         r"\bproven\b",
         r"\bcredible\b",
         r"\bdecisive\b",
-        r"\bsincer\b",        # sincere/sincerely
+        r"\bsincer\b",
         r"\bgenuine\b",
         r"\bwholehearted\b",
         r"\bcomplete\b",
@@ -171,10 +172,10 @@ class P016(BaseRule):
     # SUPPRESSION — terms that look loaded but are neutral in context
     # ------------------------------------------------------------------
     SUPPRESSED_TERMS = [
-        "positive reinforcement",   # technical psychology term, not loaded
-        "positive relationship",    # relational descriptor, not evaluative push
-        "complete knowledge",       # P001/P003 territory, not valence loading
-        "complete and total",       # intensity, handled by P001
+        "positive reinforcement",
+        "positive relationship",
+        "complete knowledge",
+        "complete and total",
     ]
 
     def evaluate(self, item: dict) -> Violation | None:
@@ -197,57 +198,85 @@ class P016(BaseRule):
 
         signals = []
 
-        # --- Signal 1: Emotionally valenced terms ---
+        # --- Signal 1 — Emotionally valenced terms ---
         pos_hits = [
             re.search(p, scrubbed).group().strip()
             for p in self.POSITIVE_VALENCE_TERMS
             if re.search(p, scrubbed)
         ]
+
         neg_hits = [
             re.search(p, scrubbed).group().strip()
             for p in self.NEGATIVE_VALENCE_TERMS
             if re.search(p, scrubbed)
         ]
-        all_valence_hits = pos_hits + neg_hits
 
-        if all_valence_hits:
-            polarity = []
-            if pos_hits:
-                polarity.append(f"positive: {', '.join(repr(h) for h in pos_hits)}")
-            if neg_hits:
-                polarity.append(f"negative: {', '.join(repr(h) for h in neg_hits)}")
+        if pos_hits:
             signals.append(
-                f"emotionally valenced term(s) detected — "
-                f"primes respondent evaluation before judgment formed. "
-                f"{' | '.join(polarity)}"
+                Signal(
+                    type=SignalType.POSITIVE_VALENCE,
+                    description=(
+                        "positive emotionally valenced term(s) detected — "
+                        "primes respondent evaluation before judgment formed"
+                    ),
+                    terms=pos_hits,
+                    confidence=0.85,
+                )
             )
 
-        # --- Signal 2: Presupposition ---
+        if neg_hits:
+            signals.append(
+                Signal(
+                    type=SignalType.NEGATIVE_VALENCE,
+                    description=(
+                        "negative emotionally valenced term(s) detected — "
+                        "primes respondent evaluation before judgment formed"
+                    ),
+                    terms=neg_hits,
+                    confidence=0.90,
+                )
+            )
+
+        # --- Signal 2 — Presupposition ---
         presup_hits = [
             re.search(p, scrubbed).group().strip()
             for p in self.PRESUPPOSITION_PATTERNS
             if re.search(p, scrubbed)
         ]
+
         if presup_hits:
             signals.append(
-                f"presupposition marker(s) detected: "
-                f"{', '.join(repr(h) for h in presup_hits)} — "
-                f"item presents embedded claim as established fact, "
-                f"not as matter for respondent evaluation"
+                Signal(
+                    type=SignalType.PRESUPPOSITION_MARKER,
+                    description=(
+                        "presupposition marker(s) detected — "
+                        "item presents embedded claim as established fact, "
+                        "not as matter for respondent evaluation"
+                    ),
+                    terms=presup_hits,
+                    confidence=0.85,
+                )
             )
 
-        # --- Signal 3: Authority/institutional loading ---
+        # --- Signal 3 — Authority/institutional loading ---
         authority_hits = [
             re.search(p, scrubbed).group().strip()
             for p in self.AUTHORITY_REFERENCES
             if re.search(p, scrubbed)
         ]
+
         if authority_hits:
             signals.append(
-                f"institutional authority reference(s): "
-                f"{', '.join(repr(h) for h in authority_hits)} — "
-                f"invoking institutional mandate conflates obligation "
-                f"with voluntary leadership disposition"
+                Signal(
+                    type=SignalType.INSTITUTIONAL_AUTHORITY,
+                    description=(
+                        "institutional authority reference(s) detected — "
+                        "invoking institutional mandate conflates obligation "
+                        "with voluntary leadership disposition"
+                    ),
+                    terms=authority_hits,
+                    confidence=0.85,
+                )
             )
 
         if not signals:
@@ -256,14 +285,16 @@ class P016(BaseRule):
         severity_map = {1: 0.40, 2: 0.65}
         severity = severity_map.get(len(signals), 0.80)
 
-        evidence = (
-            "Leading/loaded wording detected — directional pressure "
-            "embedded in item wording before respondent forms judgment. "
-            "Signal(s): " + " | ".join(signals)
+        # Evidence derived from signals — includes matched terms
+        evidence = " | ".join(
+            f"{s.description}: {', '.join(repr(t) for t in s.terms)}"
+            if s.terms else s.description
+            for s in signals
         )
 
         return Violation(
             principle=self.id,
             severity=round(severity, 2),
-            evidence=evidence
+            evidence=evidence,
+            signals=signals
         )

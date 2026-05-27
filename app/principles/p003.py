@@ -63,6 +63,7 @@ PROXY NOTE:
 
 import re
 from app.principles.base_rule import BaseRule, Violation
+from app.principles.signals import Signal, SignalType
 
 
 class P003(BaseRule):
@@ -131,17 +132,17 @@ class P003(BaseRule):
     # These match signal terms but are unambiguous in context.
     # ------------------------------------------------------------------
     SUPPRESSED_IN_CONTEXT = [
-        "my people",                # possessive + relational — contextually scoped
-        "my subordinates",          # possessive — scoped to respondent's reports
-        "all departments",          # scoped by "departments"
-        "entire schools division",  # scoped by "schools division"
-        "total control",            # intensity modifier, not scope claim
-        "complete control",         # intensity modifier
-        "full control",             # intensity modifier
-        "good ideas",               # colloquial, not evaluative claim
-        "good persuasion",          # domain-qualified
-        "effective and efficient",  # paired term, standard management phrase
-        "quality and accessible",   # policy language, scoped by DepEd context
+        "my people",
+        "my subordinates",
+        "all departments",
+        "entire schools division",
+        "total control",
+        "complete control",
+        "full control",
+        "good ideas",
+        "good persuasion",
+        "effective and efficient",
+        "quality and accessible",
     ]
 
     def evaluate(self, item: dict) -> Violation | None:
@@ -162,52 +163,74 @@ class P003(BaseRule):
         for suppressed in self.SUPPRESSED_IN_CONTEXT:
             scrubbed = scrubbed.replace(suppressed, "[OK]")
 
-        findings = []
+        signals = []
 
         # --- Category 1: Role terms ---
         role_hits = self._find_word_matches(self.ROLE_TERMS, scrubbed)
         if role_hits:
-            findings.append(
-                f"undefined scope role term(s): "
-                f"{', '.join(repr(t) for t in role_hits)}"
+            signals.append(
+                Signal(
+                    type=SignalType.UNDEFINED_ROLE_TERM,
+                    description="undefined scope role term(s) detected",
+                    terms=role_hits,
+                    confidence=0.85,
+                )
             )
 
         # --- Category 2: Behavioral terms ---
         behavioral_hits = self._find_word_matches(self.BEHAVIORAL_TERMS, scrubbed)
         if behavioral_hits:
-            findings.append(
-                f"behaviorally undefined term(s): "
-                f"{', '.join(repr(t) for t in behavioral_hits)}"
+            signals.append(
+                Signal(
+                    type=SignalType.UNDEFINED_BEHAVIORAL_TERM,
+                    description="behaviorally undefined term(s) detected",
+                    terms=behavioral_hits,
+                    confidence=0.85,
+                )
             )
 
         # --- Category 3: Evaluative terms ---
         evaluative_hits = self._find_word_matches(self.EVALUATIVE_TERMS, scrubbed)
         if evaluative_hits:
-            findings.append(
-                f"evaluative term(s) without defined standard: "
-                f"{', '.join(repr(t) for t in evaluative_hits)}"
+            signals.append(
+                Signal(
+                    type=SignalType.UNDEFINED_EVALUATIVE_TERM,
+                    description="evaluative term(s) without defined standard detected",
+                    terms=evaluative_hits,
+                    confidence=0.85,
+                )
             )
 
         # --- Category 4: Scope terms ---
         scope_hits = self._find_word_matches(self.SCOPE_TERMS, scrubbed)
         if scope_hits:
-            findings.append(
-                f"undefined scope term(s): "
-                f"{', '.join(repr(t) for t in scope_hits)}"
+            signals.append(
+                Signal(
+                    type=SignalType.UNDEFINED_SCOPE_TERM,
+                    description="undefined scope term(s) detected",
+                    terms=scope_hits,
+                    confidence=0.85,
+                )
             )
 
-        if not findings:
+        if not signals:
             return None
 
         severity_map = {1: 0.30, 2: 0.50}
-        severity = severity_map.get(len(findings), 0.70)
+        severity = severity_map.get(len(signals), 0.70)
 
-        evidence = "Ambiguous undefined term(s) detected. " + " | ".join(findings)
+        # Evidence derived from signals (keeps human readability + terms)
+        evidence = " | ".join(
+            f"{s.description}: {', '.join(repr(t) for t in s.terms)}"
+            if s.terms else s.description
+            for s in signals
+        )
 
         return Violation(
             principle=self.id,
             severity=round(severity, 2),
-            evidence=evidence
+            evidence=evidence,
+            signals=signals
         )
 
     # ------------------------------------------------------------------

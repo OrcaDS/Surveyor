@@ -67,6 +67,7 @@ PROXY NOTE:
 
 import re
 from app.principles.base_rule import BaseRule, Violation
+from app.principles.signals import Signal, SignalType
 
 
 class P005(BaseRule):
@@ -152,14 +153,17 @@ class P005(BaseRule):
             if re.search(p, text)
         ]
         if stem_hits:
-            # Extract the actual matched phrase for evidence
             matched = [
                 re.search(p, text).group().strip()
                 for p in stem_hits
             ]
             signals.append(
-                f"self-aggrandizing stem verb(s): "
-                f"{', '.join(repr(m) for m in matched)}"
+                Signal(
+                    type=SignalType.AGGRANDIZING_STEM,
+                    description="self-aggrandizing stem verb(s) detected",
+                    terms=matched,
+                    confidence=0.85,
+                )
             )
 
         # --- Signal 2: Virtuous self-attribution ---
@@ -173,8 +177,12 @@ class P005(BaseRule):
                 for p in virtue_hits
             ]
             signals.append(
-                f"virtuous self-attribution: "
-                f"{', '.join(repr(m) for m in matched)}"
+                Signal(
+                    type=SignalType.VIRTUOUS_ATTRIBUTION,
+                    description="virtuous self-attribution detected",
+                    terms=matched,
+                    confidence=0.85,
+                )
             )
 
         # --- Signal 3: Competence presupposition ---
@@ -188,8 +196,12 @@ class P005(BaseRule):
                 for p in competence_hits
             ]
             signals.append(
-                f"competence/authority presupposition: "
-                f"{', '.join(repr(m) for m in matched)}"
+                Signal(
+                    type=SignalType.COMPETENCE_PRESUPPOSITION,
+                    description="competence/authority presupposition detected",
+                    terms=matched,
+                    confidence=0.85,
+                )
             )
 
         if not signals:
@@ -198,14 +210,16 @@ class P005(BaseRule):
         severity_map = {1: 0.40, 2: 0.65}
         severity = severity_map.get(len(signals), 0.80)
 
-        evidence = (
-            "Social desirability pressure detected — respondents are "
-            "unlikely to disagree without self-deprecation. "
-            "Signal(s): " + " | ".join(signals)
+        # Evidence derived from signals (keeps matched phrases for readability)
+        evidence = " | ".join(
+            f"{s.description}: {', '.join(repr(t) for t in s.terms)}"
+            if s.terms else s.description
+            for s in signals
         )
 
         return Violation(
             principle=self.id,
             severity=round(severity, 2),
-            evidence=evidence
+            evidence=evidence,
+            signals=signals
         )
