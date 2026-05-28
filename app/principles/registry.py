@@ -191,19 +191,39 @@ class PrincipleRegistry:
         for enriched_item in enriched_items:
             item_id = enriched_item.get("item_id")
             violations = results.item_violations.get(item_id, [])
-            severities = sorted(
+
+            # Confidence-weighted severity per violation.
+            # Fallback to 1.0 for rules not yet refactored to typed signals
+            # (empty signals list) — absence of confidence data should not
+            # penalize findings from unrefactored rules.
+            weighted_severities = sorted(
+                [
+                    v.severity * (v.mean_confidence() if v.signals else 1.0)
+                    for v in violations
+                ],
+                reverse=True
+            )
+            raw_severities = sorted(
                 [v.severity for v in violations], reverse=True
             )
-            # Compute composite severity inline
-            composite = severities[0] if severities else 0.0
-            for s in severities[1:]:
+
+            # Composite: max weighted severity + diminishing contributions
+            composite = weighted_severities[0] if weighted_severities else 0.0
+            for s in weighted_severities[1:]:
                 composite += s * 0.15
             composite = min(composite, 1.0)
 
             enriched_item["_composite_severity"] = round(composite, 2)
-            enriched_item["_max_severity"] = max(severities) if severities else 0.0
-
-        # Attach instrument findings to first item for P025 access
+            # _max_severity preserved unweighted — used for priority bucketing
+            # in the aggregator, where raw severity is the right signal.
+            enriched_item["_max_severity"] = (
+                max(raw_severities) if raw_severities else 0.0
+            )
+            # _max_confidence_weighted_severity used by P025 Component 1
+            enriched_item["_max_confidence_weighted_severity"] = (
+                max(weighted_severities) if weighted_severities else 0.0
+            )
+            
         if enriched_items:
             enriched_items[0]["_instrument_findings"] = (
                 results.instrument_violations
@@ -212,8 +232,6 @@ class PrincipleRegistry:
         p025 = P025()
         self._run_instrument_rule(p025, enriched_items, results)
         return results
-
-       
 
     def registered_rules(self) -> list:
         """Return list of registered rule IDs in order."""

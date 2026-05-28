@@ -263,40 +263,28 @@ class DiagnosticAggregator:
 
     def _compute_composite_severity(self, violations: list) -> float:
         """
-        Compute a composite severity score from multiple violations.
+        Compute composite severity weighted by signal confidence.
 
-        FORMULA:
-            Takes the maximum severity as the base, then adds a
-            diminishing contribution from each additional violation.
-            This prevents the score from exceeding 1.0 while still
-            reflecting that multiple violations compound the problem.
-
-            composite = max_sev + sum(other_sev * 0.15)
-            capped at 1.0
-
-        WHY NOT AVERAGE:
-            Averaging would make a single severe violation look better
-            if paired with minor ones. We want severity to compound,
-            not dilute.
-
-        Args:
-            violations (list): List of Violation objects for one item.
-
-        Returns:
-            float: Composite severity score between 0.0 and 1.0.
+        Violations from rules not yet refactored to typed signals
+        (empty signals list) default to confidence=1.0 — no penalty
+        for absence of confidence data.
         """
         if not violations:
             return 0.0
 
-        severities = sorted(
-            [v.severity for v in violations], reverse=True
+        weighted = sorted(
+            [
+                v.severity * (v.mean_confidence() if v.signals else 1.0)
+                for v in violations
+            ],
+            reverse=True
         )
-        composite = severities[0]
-
-        for additional_sev in severities[1:]:
-            composite += additional_sev * 0.15
-
+        composite = weighted[0]
+        for additional in weighted[1:]:
+            composite += additional * 0.15
+    
         return min(composite, 1.0)
+
 
     def _compute_priority(
         self, violation_count: int, max_severity: float

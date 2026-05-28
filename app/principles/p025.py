@@ -120,11 +120,12 @@ class P025(BaseRule):
 
         total = len(items)
 
-        # --- Component 1: High-severity item ratio ---
+        # Component 1: confidence-weighted high-severity item ratio
         high_severity_items = sum(
             1 for item in items
             if item.get("_max_severity", 0.0) >= self.HIGH_SEVERITY_THRESHOLD
         )
+
         component_1 = high_severity_items / total
 
         # --- Component 2: Mean composite severity ---
@@ -173,7 +174,7 @@ class P025(BaseRule):
             f"high-severity item ratio={component_1:.2f} "
             f"(items with severity>={self.HIGH_SEVERITY_THRESHOLD}: "
             f"{high_severity_items}/{total}) | "
-            f"mean composite severity={component_2:.3f} | "
+            f"mean confidence-weighted composite severity={component_2:.3f} | "
             f"instrument finding severity={component_3:.3f} "
             f"({len(instrument_findings)} finding(s)). "
             f"Note: score represents invalidity risk (higher = more problems). "

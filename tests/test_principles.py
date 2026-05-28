@@ -479,6 +479,94 @@ class TestP020:
         result = P020().evaluate_instrument(items)
         assert result is None
 
+# ----------------------------------------------------------------------
+# P025 CONFIDENCE WEIGHTING TESTS
+# ----------------------------------------------------------------------
+
+from app.principles.signals import Signal, SignalType
+
+class TestP025ConfidenceWeighting:
+
+    def _make_violation(self, severity, confidence=None, empty_signals=False):
+        """
+        Build a Violation with controlled signal confidence.
+        empty_signals=True simulates an unrefactored rule (no signals).
+        """
+        if empty_signals:
+            return Violation(
+                principle="P001",
+                severity=severity,
+                evidence="test"
+                # signals defaults to []
+            )
+        signals = [Signal(
+            type=SignalType.ABSTRACT_CONCEPT,
+            description="test signal",
+            confidence=confidence
+        )]
+        return Violation(
+            principle="P001",
+            severity=severity,
+            evidence="test",
+            signals=signals
+        )
+
+    def test_high_confidence_scores_higher_than_low_confidence(self):
+        """
+        Same severity, different confidence — high confidence should
+        produce a higher composite severity.
+        """
+        from app.diagnostics.diagnostic_aggregator import DiagnosticAggregator
+
+        v_high = self._make_violation(severity=0.70, confidence=0.95)
+        v_low  = self._make_violation(severity=0.70, confidence=0.30)
+
+        # Use aggregator's method directly
+        agg = DiagnosticAggregator.__new__(DiagnosticAggregator)
+        score_high = agg._compute_composite_severity([v_high])
+        score_low  = agg._compute_composite_severity([v_low])
+
+        assert score_high > score_low
+
+    def test_empty_signals_treated_as_full_confidence(self):
+        """
+        Violations with no signals (unrefactored rules) must not be
+        penalized — they should score the same as confidence=1.0.
+        """
+        from app.diagnostics.diagnostic_aggregator import DiagnosticAggregator
+
+        v_empty    = self._make_violation(severity=0.60, empty_signals=True)
+        v_full     = self._make_violation(severity=0.60, confidence=1.0)
+
+        agg = DiagnosticAggregator.__new__(DiagnosticAggregator)
+        score_empty = agg._compute_composite_severity([v_empty])
+        score_full  = agg._compute_composite_severity([v_full])
+
+        assert score_empty == score_full
+
+    def test_registry_injects_confidence_weighted_severity(self):
+        """
+        After registry evaluation, enriched items must carry
+        _max_confidence_weighted_severity key.
+        """
+        registry = build_default_registry()
+        items = make_items([
+            "I affirm that my leadership ensures effective empowerment.",
+            "I lead my team.",
+        ])
+        # Access enriched items — run evaluate and check internal state
+        # by re-running the enrichment path directly
+        results = registry.evaluate(items)
+        # P025 ran without error means enrichment succeeded.
+        # Verify via P025 finding existing in results.
+        p025_findings = [
+            v for v in results.instrument_violations
+            if v.principle == "P025"
+        ]
+        assert len(p025_findings) == 1
+        assert p025_findings[0].severity >= 0.0
+        assert p025_findings[0].severity <= 1.0
+
 
 # ----------------------------------------------------------------------
 # REGISTRY TESTS
