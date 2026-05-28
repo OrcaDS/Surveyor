@@ -64,7 +64,7 @@ PROXY NOTE:
 """
 
 from app.principles.base_rule import BaseRule, InstrumentViolation
-
+from app.principles.signals import Signal, SignalType
 
 class P020(BaseRule):
 
@@ -178,6 +178,81 @@ class P020(BaseRule):
             "Problem(s): " + " | ".join(problems)
         )
 
+        signals = []
+
+        # --- Item count signals ---
+        if total >= self.HIGH_ITEM_THRESHOLD:
+            signals.append(Signal(
+                type=SignalType.HIGH_ITEM_COUNT,
+                description=f"high item count: {total} items",
+                terms=[],
+                confidence=0.95,
+                metadata={
+                    "total_items": total,
+                    "threshold": self.HIGH_ITEM_THRESHOLD,
+                }
+            ))
+
+        elif total >= self.ELEVATED_ITEM_THRESHOLD:
+            signals.append(Signal(
+                type=SignalType.ELEVATED_ITEM_COUNT,
+                description=f"elevated item count: {total} items",
+                terms=[],
+                confidence=0.90,
+                metadata={
+                    "total_items": total,
+                    "threshold": self.ELEVATED_ITEM_THRESHOLD,
+                }
+            ))
+
+        # --- Completion time signals ---
+        if estimated_minutes >= self.HIGH_TIME_THRESHOLD:
+            signals.append(Signal(
+                type=SignalType.HIGH_COMPLETION_TIME,
+                description=(
+                    f"high estimated completion time: "
+                    f"{estimated_minutes} minutes"
+                ),
+                terms=[],
+                confidence=0.85,
+                metadata={
+                    "estimated_minutes": estimated_minutes,
+                    "threshold": self.HIGH_TIME_THRESHOLD,
+                }
+            ))
+
+        elif estimated_minutes >= self.ELEVATED_TIME_THRESHOLD:
+            signals.append(Signal(
+                type=SignalType.ELEVATED_COMPLETION_TIME,
+                description=(
+                    f"elevated estimated completion time: "
+                    f"{estimated_minutes} minutes"
+                ),
+                terms=[],
+                confidence=0.80,
+                metadata={
+                    "estimated_minutes": estimated_minutes,
+                    "threshold": self.ELEVATED_TIME_THRESHOLD,
+                }
+            ))
+
+        # --- Density distribution signal ---
+        if last_avg > first_avg * 1.15:
+            signals.append(Signal(
+                type=SignalType.DENSITY_INCREASE,
+                description=(
+                    f"cognitive density increases toward end: "
+                    f"first quartile avg {first_avg:.1f} words, "
+                    f"last quartile avg {last_avg:.1f} words"
+                ),
+                terms=[],
+                confidence=0.80,
+                metadata={
+                    "first_quartile_avg_words": round(first_avg, 1),
+                    "last_quartile_avg_words": round(last_avg, 1),
+                }
+            ))
+
         return [
             InstrumentViolation(
                 principle=self.id,
@@ -185,7 +260,8 @@ class P020(BaseRule):
                 evidence=evidence,
                 affected_items=[
                     item["item_id"] for item in last_quartile
-                ]
+                ],
+                signals=signals
             )
         ]
 

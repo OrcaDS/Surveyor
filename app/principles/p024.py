@@ -61,7 +61,7 @@ PROXY NOTE:
 
 import re
 from app.principles.base_rule import BaseRule, InstrumentViolation
-
+from app.principles.signals import Signal, SignalType
 
 class P024(BaseRule):
 
@@ -177,12 +177,30 @@ class P024(BaseRule):
             f"behavioral items within each block."
         )
 
+        signal = Signal(
+            type=SignalType.FUNNEL_VIOLATION,
+            description=(
+                f"{count} specific item(s) precede general item(s) "
+                f"within construct block(s)"
+            ),
+            terms=[],
+            confidence=0.65,
+            metadata={
+                "violation_count": count,
+                "violation_pairs": [
+                    {"specific": s, "general": g}
+                    for s, g in violations[:10]
+                ]
+            }
+        )
+
         return [
             InstrumentViolation(
                 principle=self.id,
                 severity=round(severity, 2),
                 evidence=evidence,
-                affected_items=affected
+                affected_items=affected,
+                signals=[signal]
             )
         ]
 

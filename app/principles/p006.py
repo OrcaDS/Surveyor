@@ -66,7 +66,7 @@ PROXY NOTE:
 
 import re
 from app.principles.base_rule import BaseRule, InstrumentViolation
-
+from app.principles.signals import Signal, SignalType
 
 class P006(BaseRule):
 
@@ -180,6 +180,7 @@ class P006(BaseRule):
                 re.search(pattern, scrubbed)
                 for pattern in self.MAIN_CLAUSE_NEGATION
             )
+
             if has_main_negation:
                 negative_items.append(item_id)
 
@@ -188,6 +189,7 @@ class P006(BaseRule):
                 re.search(pattern, text)
                 for pattern in self.REVERSE_SCORE_MARKERS
             )
+
             if has_reverse_marker:
                 reverse_scored_items.append(item_id)
 
@@ -223,12 +225,46 @@ class P006(BaseRule):
                 "However, positive polarity ratio remains above threshold."
             )
 
+        # Build signal
+        if positive_ratio == 1.0:
+            signal_type = SignalType.ALL_POSITIVE_POLARITY
+            signal_description = (
+                f"All {total} items ({positive_ratio:.0%}) are positively "
+                f"worded — no main-clause negation detected anywhere in "
+                f"the instrument."
+            )
+            confidence = 0.95
+        else:
+            signal_type = SignalType.HIGH_POSITIVE_POLARITY
+            signal_description = (
+                f"{positive_count}/{total} items ({positive_ratio:.0%}) are "
+                f"positively worded — above the "
+                f"{self.POSITIVE_POLARITY_THRESHOLD:.0%} "
+                f"acquiescence risk threshold."
+            )
+            confidence = 0.85
+
+        signal = Signal(
+            type=signal_type,
+            description=signal_description,
+            terms=[],
+            confidence=confidence,
+            metadata={
+                "positive_count": positive_count,
+                "total_items": total,
+                "positive_ratio": round(positive_ratio, 3),
+                "reverse_scored_items": reverse_scored_items,
+                "negative_items": negative_items,
+            }
+        )
+
         return [
             InstrumentViolation(
                 principle=self.id,
                 severity=round(severity, 2),
                 evidence=evidence,
-                affected_items=list(range(1, total + 1))
+                affected_items=list(range(1, total + 1)),
+                signals=[signal]
             )
         ]
 

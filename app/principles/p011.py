@@ -57,7 +57,7 @@ PROXY NOTE:
 """
 
 from app.principles.base_rule import BaseRule, InstrumentViolation
-
+from app.principles.signals import Signal, SignalType
 
 class P011(BaseRule):
 
@@ -155,15 +155,47 @@ class P011(BaseRule):
             "Problem(s): " + " | ".join(problems)
         )
 
+        signals = []
+
+        if any("even-numbered" in p for p in problems):
+            signals.append(Signal(
+                type=SignalType.MISSING_MIDPOINT,
+                description=(
+                    f"even-numbered scale ({points} points) with no "
+                    f"midpoint — forces artificial polarization"
+                ),
+                terms=[],
+                confidence=0.90,
+                metadata={
+                    "scale_points": points,
+                    "labels": label_values,
+                }
+            ))
+
+        if not has_dk:
+            signals.append(Signal(
+                type=SignalType.MISSING_DK_OPTION,
+                description=(
+                    f"no Don't Know or Not Applicable option in "
+                    f"{points}-point scale"
+                ),
+                terms=[],
+                confidence=0.75,
+                metadata={
+                    "scale_points": points,
+                    "labels": label_values,
+                }
+            ))
+
         return [
             InstrumentViolation(
                 principle=self.id,
                 severity=round(severity, 2),
                 evidence=evidence,
-                affected_items=list(range(1, len(items) + 1))
+                affected_items=list(range(1, len(items) + 1)),
+                signals=signals
             )
         ]
-
     def evaluate(self, item: dict):
         raise NotImplementedError(
             "P011 is an instrument-level rule. "
