@@ -174,7 +174,7 @@ class P025(BaseRule):
             f"high-severity item ratio={component_1:.2f} "
             f"(items with severity>={self.HIGH_SEVERITY_THRESHOLD}: "
             f"{high_severity_items}/{total}) | "
-            f"mean confidence-weighted composite severity={component_2:.3f} | "
+            f"mean confidence-weighted composite severity={component_2:.3f} | " 
             f"instrument finding severity={component_3:.3f} "
             f"({len(instrument_findings)} finding(s)). "
             f"Note: score represents invalidity risk (higher = more problems). "

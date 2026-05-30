@@ -68,6 +68,8 @@ PROXY NOTE:
 
 import re
 from app.principles.base_rule import BaseRule, InstrumentViolation
+from app.principles.signals import Signal, SignalType
+
 
 
 class P008(BaseRule):
@@ -208,10 +210,12 @@ class P008(BaseRule):
 
         # --- Problem 3: Missing endpoint anchors ---
         # Check that the highest and lowest scale points have labels
+
+        missing_endpoints = []
+        
         if points > 0:
             highest = str(points)
             lowest = "1"
-            missing_endpoints = []
             if highest not in labels:
                 missing_endpoints.append(f"top endpoint ({highest})")
             if lowest not in labels:
@@ -236,12 +240,59 @@ class P008(BaseRule):
             "Problem(s): " + " | ".join(problems)
         )
 
+        signals = []
+
+        if vague_hits:
+            signals.append(Signal(
+                type=SignalType.VAGUE_QUANTIFIER_LABEL,
+                description=(
+                    f"vague quantifier label(s) with no numerical referent: "
+                    f"{', '.join(repr(l) for l in vague_hits)}"
+                ),
+                terms=vague_hits,
+                confidence=0.90,
+                metadata={
+                    "label_values": label_values
+                }
+            ))
+
+        if positive_count != negative_count:
+            signals.append(Signal(
+                type=SignalType.ASYMMETRIC_DISTRIBUTION,
+                description=(
+                    f"asymmetric scale: "
+                    f"{positive_count} positive, "
+                    f"{neutral_count} neutral, "
+                    f"{negative_count} negative"
+                ),
+                terms=[],
+                confidence=0.85,
+                metadata={
+                    "positive_count": positive_count,
+                    "neutral_count": neutral_count,
+                    "negative_count": negative_count,
+                }
+            ))
+
+        if missing_endpoints:
+            signals.append(Signal(
+                type=SignalType.MISSING_ENDPOINT,
+                description=(
+                    f"missing endpoint anchor(s): "
+                    f"{', '.join(missing_endpoints)}"
+                ),
+                terms=missing_endpoints,
+                confidence=0.95,
+                metadata={}
+            ))
+
         return [
             InstrumentViolation(
                 principle=self.id,
                 severity=round(severity, 2),
                 evidence=evidence,
-                affected_items=list(range(1, len(items) + 1))
+                affected_items=list(range(1, len(items) + 1)),
+                signals=signals
             )
         ]
 

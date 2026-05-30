@@ -64,7 +64,9 @@ PROXY NOTE:
 """
 
 import re
+
 from app.principles.base_rule import BaseRule, InstrumentViolation
+from app.principles.signals import Signal, SignalType
 
 
 class P010(BaseRule):
@@ -127,45 +129,52 @@ class P010(BaseRule):
         if len(items) < 2:
             return None
 
-        signals = []
+        evidence_signals = []
+        typed_signals = []
         affected = []
 
         # --- Signal 1: Block transition contamination ---
         transition_result = self._check_block_transitions(items)
         if transition_result:
-            sig, aff = transition_result
-            signals.append(sig)
+            sig_text, aff, signal = transition_result
+            evidence_signals.append(sig_text)
+            typed_signals.append(signal)
             affected.extend(aff)
 
         # --- Signal 2: Within-block semantic clustering ---
         clustering_result = self._check_semantic_clustering(items)
         if clustering_result:
-            sig, aff = clustering_result
-            signals.append(sig)
+            sig_text, aff, signal = clustering_result
+            evidence_signals.append(sig_text)
+            typed_signals.append(signal)
             affected.extend(aff)
 
         # --- Signal 3: Emotionally escalating sequences ---
         escalation_result = self._check_escalation(items)
         if escalation_result:
-            sig, aff = escalation_result
-            signals.append(sig)
+            sig_text, aff, signal = escalation_result
+            evidence_signals.append(sig_text)
+            typed_signals.append(signal)
             affected.extend(aff)
 
-        if not signals:
+        if not evidence_signals:
             return None
 
         severity_map = {1: 0.40, 2: 0.60}
-        severity = severity_map.get(len(signals), 0.75)
+        severity = severity_map.get(len(evidence_signals), 0.75)
 
         # Adjust for clustering-only (slightly lower)
-        if len(signals) == 1 and "clustering" in signals[0]:
+        if (
+            len(typed_signals) == 1
+            and typed_signals[0].type == SignalType.SEMANTIC_CLUSTERING
+        ):
             severity = 0.35
 
         affected_items = sorted(set(affected))
 
         evidence = (
             "Carry-over and context effect risk detected from item sequencing. "
-            "Signal(s): " + " | ".join(signals)
+            "Signal(s): " + " | ".join(evidence_signals)
         )
 
         return [
@@ -173,7 +182,8 @@ class P010(BaseRule):
                 principle=self.id,
                 severity=round(severity, 2),
                 evidence=evidence,
-                affected_items=affected_items
+                affected_items=affected_items,
+                signals=typed_signals
             )
         ]
 
@@ -234,7 +244,22 @@ class P010(BaseRule):
             f"Transition zones: items {transition_items}"
         )
 
-        return evidence, transition_items
+        signal = Signal(
+            type=SignalType.BLOCK_TRANSITION_CONTAMINATION,
+            description=(
+                f"block transition contamination at {block_count} "
+                f"construct block boundaries"
+            ),
+            terms=[],
+            confidence=0.75,
+            metadata={
+                "block_count": block_count,
+                "transition_items": transition_items,
+                "block_size": self.BLOCK_SIZE,
+            }
+        )
+
+        return evidence, transition_items, signal
 
     def _check_semantic_clustering(self, items: list) -> tuple | None:
         """
@@ -284,7 +309,21 @@ class P010(BaseRule):
             f"increasing straight-lining risk. Pairs: {pair_desc}"
         )
 
-        return evidence, affected
+        signal = Signal(
+            type=SignalType.SEMANTIC_CLUSTERING,
+            description=(
+                f"{len(high_overlap_pairs)} adjacent item pair(s) with "
+                f">={self.OVERLAP_THRESHOLD:.0%} content word overlap"
+            ),
+            terms=[],
+            confidence=0.70,
+            metadata={
+                "pair_count": len(high_overlap_pairs),
+                "overlap_threshold": self.OVERLAP_THRESHOLD,
+            }
+        )
+
+        return evidence, affected, signal
 
     def _check_escalation(self, items: list) -> tuple | None:
         """
@@ -343,7 +382,20 @@ class P010(BaseRule):
             f"inflating subsequent ratings within the block"
         )
 
-        return evidence, affected
+        signal = Signal(
+            type=SignalType.ESCALATING_SEQUENCE,
+            description=(
+                f"emotionally escalating sequence(s) in "
+                f"{len(escalation_zones)} construct block(s)"
+            ),
+            terms=[],
+            confidence=0.70,
+            metadata={
+                "escalation_zone_count": len(escalation_zones)
+            }
+        )
+
+        return evidence, affected, signal
 
     def _compute_overlap(self, text_a: str, text_b: str) -> float:
         """

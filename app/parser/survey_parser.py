@@ -32,6 +32,9 @@ class SurveyParser:
     # Matches the number at the start of a cleaned item e.g. "14. I ensure..."
     ITEM_NUMBER_PATTERN = re.compile(r"^(\d{1,2})\.\s+(.+)$", re.DOTALL)
 
+    # Default construct block size. Override for instruments with different structure.
+    BLOCK_SIZE = 15
+
     # Matches scale header lines e.g. "5 - Always (A)"
     SCALE_LABEL_PATTERN = re.compile(
         r"(\d)\s*[-–]\s*(\w+(?:\s+\w+)?)\s*(?:\([A-Z]\))?"
@@ -125,11 +128,17 @@ class SurveyParser:
                 "word_count": len(raw_item.split()),
                 "is_question": "?" in raw_item,
                 "construct": None,
+                "construct_block": None,
                 "parse_warning": "Item number not detected"
             }
 
         item_id = int(match.group(1))
         text = match.group(2).strip()
+
+        # Fact, not interpretation: which block this item falls in
+        # based purely on its position. Block 1 = items 1-15, etc.
+
+        construct_block = ((item_id - 1) // self.BLOCK_SIZE) + 1
 
         return {
             "item_id": item_id,
@@ -137,9 +146,10 @@ class SurveyParser:
             "scale": scale,
             "word_count": len(text.split()),
             "is_question": "?" in text,
-            "construct": None
+            "construct": None,
+            "construct_block": construct_block
         }
-
+    
     def _build_metadata(self, items: list[dict], scale: dict) -> dict:
         """
         Build survey-level facts from the full item list.
